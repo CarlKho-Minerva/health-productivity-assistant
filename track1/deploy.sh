@@ -9,12 +9,17 @@ SERVICE_NAME="health-record-agent"
 
 echo "==> Project: ${PROJECT_ID} | Service: ${SERVICE_NAME}"
 
-gcloud services enable run.googleapis.com cloudbuild.googleapis.com \
+gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com \
     --project="${PROJECT_ID}" --quiet
 
-# --source . lets Cloud Run build + deploy in one step (no separate builds submit)
+IMAGE="gcr.io/${PROJECT_ID}/${SERVICE_NAME}"
+
+echo "==> Building container image with Cloud Build..."
+gcloud builds submit --tag "${IMAGE}" --project="${PROJECT_ID}" .
+
+echo "==> Deploying image to Cloud Run..."
 gcloud run deploy "${SERVICE_NAME}" \
-    --source . \
+    --image "${IMAGE}" \
     --platform managed \
     --region "${REGION}" \
     --allow-unauthenticated \
