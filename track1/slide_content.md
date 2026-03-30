@@ -98,9 +98,9 @@ User
 **Privacy architecture:**
 
 ```
-📱 Health Passport (Android)          ☁️ Health Agent (Cloud Run)
+📱 Health Passport (Android)            ☁️ Health Agent (Cloud Run)
    On-device NPU inference                ADK + Gemini 2.5 Flash
-   Camera → VLM → Markdown    export→    POST /run ← question only
+   Camera → VLM → Markdown export→        POST /run ← question only
    ZERO cloud upload                      vault searched locally in container
    ──────────────────────                 ──────────────────────────────────
    CAPTURE (private)                      QUERY (cloud)

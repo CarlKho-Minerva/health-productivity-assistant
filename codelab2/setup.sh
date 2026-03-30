@@ -33,7 +33,7 @@ echo ""
 echo "==> Writing .env for personal_assistant..."
 cat > personal_assistant/.env << EOF
 GOOGLE_GENAI_USE_VERTEXAI=0
-GOOGLE_API_KEY=AIzaSyCuBeRSnq5-DpZmutdosrfCuMdYjK_1A4U
+GOOGLE_API_KEY=${GOOGLE_API_KEY:?'Set GOOGLE_API_KEY before running this script'}
 EOF
 
 echo ""

@@ -1,35 +1,39 @@
 import os
 import logging
-import google.cloud.logging
+import wikipedia
 from dotenv import load_dotenv
 
 from google.adk import Agent
 from google.adk.agents import SequentialAgent
 from google.adk.tools.tool_context import ToolContext
-from google.adk.tools.langchain_tool import LangchainTool
-
-from langchain_community.tools import WikipediaQueryRun
-from langchain_community.utilities import WikipediaAPIWrapper
-
-import google.auth
-import google.auth.transport.requests
-import google.oauth2.id_token
-
-# --- Setup Logging and Environment ---
-
-cloud_logging_client = google.cloud.logging.Client()
-cloud_logging_client.setup_logging()
 
 load_dotenv()
+logging.basicConfig(level=logging.INFO)
 
-model_name = os.getenv("MODEL")
+model_name = os.getenv("MODEL", "gemini-2.5-flash")
+
+
+def add_prompt_to_state(tool_context: ToolContext, prompt: str) -> dict:
+    """Saves the user's initial prompt to the state."""
+    tool_context.state["user_prompt"] = prompt
+    return {"status": "success"}
+
+
+def search_wikipedia(query: str) -> str:
+    """Search Wikipedia for information about an animal or topic."""
+    try:
+        return wikipedia.summary(query, sentences=8, auto_suggest=False)
+    except wikipedia.exceptions.DisambiguationError as e:
+        return wikipedia.summary(e.options[0], sentences=8)
+    except Exception as e:
+        return f"Could not find Wikipedia info: {str(e)}"
 
 
 # Greet user and save their prompt
 
 def add_prompt_to_state(
     tool_context: ToolContext, prompt: str
-) -> dict[str, str]:
+) -> dict:
     """Saves the user's initial prompt to the state."""
     tool_context.state["user_prompt"] = prompt
     logging.info(f"Prompt saved to state: {prompt}")
@@ -37,9 +41,7 @@ def add_prompt_to_state(
 
 
 # Configuring the Wikipedia Tool
-wikipedia_tool = LangchainTool(
-    tool=WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper())
-)
+wikipedia_tool = search_wikipedia
 
 
 # 1. Researcher Agent
@@ -55,7 +57,7 @@ comprehensive_researcher = Agent(
     3. Gather comprehensive facts including diet, habitat, behavior, lifespan, and fun facts
     Be thorough — collect as much relevant information as possible.
     """,
-    tools=[wikipedia_tool],
+    tools=[search_wikipedia],
     output_key="research_data"  # A key to store the combined findings
 )
 
