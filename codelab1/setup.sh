@@ -11,7 +11,7 @@ PROJECT_ID="dee-md"
 REGION="europe-west1"
 SA_NAME="lab2-cr-service"
 SERVICE_NAME="zoo-tour-guide"
-MODEL="gemini-2.5-flash"
+MODEL="gemini-3-flash-preview"
 # -----------------------------------------
 
 echo ""

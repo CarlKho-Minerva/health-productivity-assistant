@@ -29,7 +29,7 @@ The **Health Record Query Agent** is the cloud complement: a single ADK agent de
 | Requirement | Implementation |
 |---|---|
 | Implemented using ADK | `Agent` class from `google.adk`, tool-using architecture |
-| Uses a Gemini model | Gemini 2.5 Flash Preview (`gemini-2.5-flash-preview-04-17`) |
+| Uses a Gemini model | Gemini 2.5 Flash Preview (`gemini-3-flash-preview`) |
 | One clearly defined task | Natural language health record Q&A with cited sources |
 | Accepts input, returns response | JSON input → structured markdown response |
 | HTTP endpoint on Cloud Run | `POST /run` — publicly accessible, serverless |

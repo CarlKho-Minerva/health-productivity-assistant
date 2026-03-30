@@ -9,7 +9,7 @@ Task: answer natural language questions about personal health records.
 from pathlib import Path
 from google.adk.agents import Agent
 
-HEALTH_VAULT_DIR = Path(__file__).parent / "health_vault"
+HEALTH_VAULT_DIR = Path(__file__).parent.parent / "health_vault"
 
 
 def search_health_records(query: str) -> str:

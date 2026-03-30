@@ -191,7 +191,7 @@ def delete_task(task_id: int) -> str:
 
 health_record_agent = Agent(
     name="health_record_agent",
-    model="gemini-2.5-flash-preview-04-17",
+    model="gemini-3-flash-preview",
     description=(
         "Queries the personal health vault. Use this sub-agent for any question "
         "about medical records: medications, lab results, eye prescription, "
@@ -217,7 +217,7 @@ Rules:
 
 tasks_agent = Agent(
     name="tasks_agent",
-    model="gemini-2.5-flash-preview-04-17",
+    model="gemini-3-flash-preview",
     description=(
         "Manages tasks, reminders, and to-dos. Use this sub-agent to add, list, "
         "complete, or delete tasks. Supports categories: health, medication, "
@@ -245,7 +245,7 @@ Rules:
 
 root_agent = Agent(
     name="health_productivity_assistant",
-    model="gemini-2.5-flash-preview-04-17",
+    model="gemini-3-flash-preview",
     description=(
         "Primary coordinator for personal health and productivity management. "
         "Routes health questions to the health_record_agent and task/reminder "

@@ -10,7 +10,7 @@ from google.adk.tools.tool_context import ToolContext
 load_dotenv()
 logging.basicConfig(level=logging.INFO)
 
-model_name = os.getenv("MODEL", "gemini-2.5-flash")
+model_name = os.getenv("MODEL", "gemini-3-flash-preview")
 
 
 def add_prompt_to_state(tool_context: ToolContext, prompt: str) -> dict:
