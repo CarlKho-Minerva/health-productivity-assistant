@@ -1,3 +1,5 @@
+https://health-record-agent-hd4kqp35da-uc.a.run.app
+
 # Health Productivity Assistant
 **Google Cloud GenAI Academy APAC 2026 | Carl Kho | kho@uni.minerva.edu**
 
@@ -10,3 +12,5 @@ Two submissions in one repo:
 
 ## Background
 [Health Passport](https://github.com/CarlKho-Minerva/health-passport-android) is an Android app that captures medical records on-device (zero cloud upload, Qualcomm NPU). This repo is the cloud query layer on top of it.
+
+
