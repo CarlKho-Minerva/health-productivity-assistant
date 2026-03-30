@@ -32,17 +32,15 @@ uv pip install google-adk 2>/dev/null || pip install google-adk
 echo ""
 echo "==> Writing .env for personal_assistant..."
 cat > personal_assistant/.env << EOF
-GOOGLE_GENAI_USE_VERTEXAI=1
-GOOGLE_CLOUD_PROJECT=${PROJECT_ID}
-GOOGLE_CLOUD_LOCATION=${REGION}
+GOOGLE_GENAI_USE_VERTEXAI=0
+GOOGLE_API_KEY=AIzaSyCuBeRSnq5-DpZmutdosrfCuMdYjK_1A4U
 EOF
 
 echo ""
 echo "================================================================"
 echo " [4/4] DONE with setup! Now run the agent web UI:"
 echo ""
-echo "   source .venv/bin/activate"
-echo "   adk web"
+echo "   cd ~/codelab2 && source .venv/bin/activate && adk web"
 echo ""
 echo " Then click the Web Preview button (top right of Cloud Shell),"
 echo " select port 8000, and chat with the agent."

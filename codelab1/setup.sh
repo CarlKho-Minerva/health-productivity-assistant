@@ -74,7 +74,7 @@ uvx --from google-adk==1.14.0 \
   --service_name="${SERVICE_NAME}" \
   --app_name=zoo_guide_agent \
   --with_ui \
-  --service-account="${SERVICE_ACCOUNT}"
+  --service_account="${SERVICE_ACCOUNT}"
 
 echo ""
 echo "================================================================"
