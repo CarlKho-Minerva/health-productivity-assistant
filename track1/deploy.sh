@@ -6,19 +6,15 @@ set -euo pipefail
 PROJECT_ID="dee-md"
 REGION="us-central1"
 SERVICE_NAME="health-record-agent"
-IMAGE="gcr.io/${PROJECT_ID}/${SERVICE_NAME}"
 
 echo "==> Project: ${PROJECT_ID} | Service: ${SERVICE_NAME}"
 
 gcloud services enable run.googleapis.com cloudbuild.googleapis.com \
     --project="${PROJECT_ID}" --quiet
 
-gcloud builds submit \
-    --tag "${IMAGE}" \
-    --project="${PROJECT_ID}"
-
+# --source . lets Cloud Run build + deploy in one step (no separate builds submit)
 gcloud run deploy "${SERVICE_NAME}" \
-    --image "${IMAGE}" \
+    --source . \
     --platform managed \
     --region "${REGION}" \
     --allow-unauthenticated \
