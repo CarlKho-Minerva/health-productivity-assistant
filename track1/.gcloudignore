@@ -1,0 +1,10 @@
+.gcloudignore
+.git/
+.gitignore
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+040126_hackathon-submission/
+slide_content.md
