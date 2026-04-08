@@ -47,7 +47,7 @@ def search_health_records(query: str) -> str:
 
 root_agent = Agent(
     name="health_record_agent",
-    model="gemini-3-flash-preview",
+    model="gemini-2.5-flash",
     description="Answers natural language questions about personal health records.",
     instruction="""\
 You are a Health Record Agent for a personal health vault.

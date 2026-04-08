@@ -4,5 +4,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY health_agent/ ./health_agent/
 COPY health_vault/ ./health_vault/
+COPY app.py .
+COPY static/ ./static/
 ENV PORT=8080
-CMD ["sh", "-c", "adk web --host 0.0.0.0 --port ${PORT}"]
+CMD ["python", "app.py"]
