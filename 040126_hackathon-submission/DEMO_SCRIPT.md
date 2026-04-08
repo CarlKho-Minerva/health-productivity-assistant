@@ -1,5 +1,5 @@
 # Health Passport AI — Demo Video Script
-*Loom · target ~3 min · no edits needed, one take*
+*Loom · target ~3 min · solo by default, optional 4-person cold open*
 
 ---
 
@@ -8,13 +8,30 @@
 - [ ] Local ADK web UI open at `http://localhost:8000` in a separate tab (for the Dev jump)
 - [ ] Health vault files intact (`lab_baselines.md`, `medications.md`, `eyes.md`, `conditions.md`)
 - [ ] Have a lab report photo ready on your phone or desktop (any old receipt/screenshot works for the image demo)
+- [ ] Browser mic permission enabled if you want to record a voice note live
 - [ ] Kill any old session: open DevTools → Application → Local Storage → delete `hp_sess`
 
 ---
 
 ## The Script
 
-### [0:00 – 0:30] Hook — the real problem
+### [0:00 – 0:12] Optional cold open — 4 quick validation voices
+
+> *Use only if you want outside voices. Keep each clip under 3 seconds.*
+
+Person 1: "I never remember my latest lab numbers when a doctor asks."
+
+Person 2: "My records are scattered across screenshots, PDFs, and random emails."
+
+Person 3: "I hate uploading medical documents to cloud apps I don't trust."
+
+Person 4: "I wish I could just ask one system what matters and get the source."
+
+Then cut immediately to your screen.
+
+---
+
+### [0:12 – 0:35] Hook — the real problem
 
 > *Show: just you, talking. Or start on the welcome screen of the app.*
 
@@ -76,7 +93,7 @@ That's the capture side: fully private, on-device.
 
 ---
 
-### [1:40 – 2:10] Image upload demo
+### [1:40 – 2:00] Image upload demo
 
 > *Show: click the paperclip icon in the input bar*
 
@@ -96,7 +113,21 @@ I'll attach a photo of a lab report."
 
 ---
 
-### [2:10 – 2:35] Dev mode
+### [2:00 – 2:20] Audio / voice-note demo
+
+> *Show: click the mic button and record one short sentence*
+
+Say into the mic:
+
+"I had a therapy session last week, felt less anxious, and my next follow-up is April 22. Summarise this and tell me where it belongs in my records."
+
+> *Stop recording, then hit send*
+
+"This uses the same Gemini 3 Flash Preview agent, but now with audio input. It can process a voice note, extract the medically relevant information, and turn spoken context into structured output. That matters because health updates often happen in conversation, not in typed form."
+
+---
+
+### [2:20 – 2:40] Dev mode
 
 > *Click 'Dev' button in the header — ADK Studio opens in new tab*
 
@@ -108,7 +139,7 @@ I'll attach a photo of a lab report."
 
 ---
 
-### [2:35 – 3:00] Close
+### [2:40 – 3:00] Close
 
 > *Show: app header — 'Health Passport · CLOUD AI'*
 
@@ -139,3 +170,4 @@ GitHub:    https://github.com/CarlKho-Minerva/health-productivity-assistant
 | Update cholesterol | `search_health_records()` → `patch_health_record()` | "search then write" |
 | Summarise profile | `search_health_records()` | "scans all files" |
 | Lab photo | `search_health_records()` → `write_health_record()` | "image → structured data" |
+| Voice note | `search_health_records()` | "audio → structured summary" |

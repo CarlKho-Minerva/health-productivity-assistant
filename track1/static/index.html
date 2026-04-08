@@ -200,9 +200,6 @@
     .md-content p:last-child { margin-bottom: 0; }
     .md-content ul, .md-content ol { padding-left: 18px; margin: 5px 0; }
     .md-content li { margin-bottom: 3px; }
-    .md-content table { border-collapse: collapse; width: 100%; margin: 10px 0; background: #111; border: 1px solid var(--border); }
-    .md-content th, .md-content td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; font-size: 13px; }
-    .md-content th { background: #1a1a1a; font-weight: 600; color: var(--green); }
     .md-content h1,.md-content h2,.md-content h3 {
       font-weight: 600; margin: 8px 0 4px; color: var(--text);
     }
@@ -214,6 +211,19 @@
     .md-content hr {
       border: none; border-top: 1px solid var(--border); margin: 8px 0;
     }
+    .md-content table {
+      width: 100%; border-collapse: collapse; margin: 8px 0 10px;
+      font-size: 13px; overflow: hidden; border-radius: 10px;
+      border: 1px solid var(--border-card); background: rgba(255,255,255,.02);
+    }
+    .md-content th, .md-content td {
+      padding: 8px 10px; text-align: left; vertical-align: top;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .md-content th {
+      color: var(--text); font-weight: 600; background: rgba(255,255,255,.03);
+    }
+    .md-content tr:last-child td { border-bottom: none; }
     .src-link {
       font-family: monospace; font-size: 12px;
       color: var(--green); text-decoration: none;
@@ -264,12 +274,31 @@
     }
     .attach-btn:hover { border-color: var(--green); color: var(--green); }
     .attach-btn.has-image { border-color: var(--green); color: var(--green); background: var(--green-glow); }
+    .attach-btn.has-audio { border-color: var(--green); color: var(--green); background: var(--green-glow); }
+    .attach-btn.recording {
+      border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,.12);
+      box-shadow: 0 0 0 1px rgba(239,68,68,.15) inset;
+    }
 
     /* ── IMAGE PREVIEW ── */
     .img-preview-wrap { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
     .img-preview {
       max-height: 80px; max-width: 120px; border-radius: 8px;
       border: 1px solid var(--border-card); object-fit: cover;
+    }
+    .audio-preview {
+      width: 100%; max-width: 280px; height: 36px;
+      filter: invert(.92) hue-rotate(140deg) saturate(.5);
+    }
+    .preview-stack { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+    .audio-pill {
+      display: inline-flex; align-items: center; gap: 8px; width: fit-content;
+      padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border-card);
+      background: var(--input-bg); color: var(--text2); font-size: 12px;
+    }
+    .audio-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: #ef4444;
+      box-shadow: 0 0 8px rgba(239,68,68,.45);
     }
     .img-clear {
       width: 20px; height: 20px; border-radius: 50%; background: var(--elevated);
@@ -280,6 +309,10 @@
     .msg-img {
       max-width: 200px; max-height: 200px; border-radius: 10px;
       border: 1px solid var(--border-card); display: block; margin-bottom: 6px;
+    }
+    .msg-audio {
+      display: block; width: 220px; margin-bottom: 8px;
+      filter: invert(.92) hue-rotate(140deg) saturate(.5);
     }
 
     /* ── FILES PANEL ── */
@@ -366,15 +399,24 @@
     </div>
 
     <div class="input-area">
-      <div id="imgPreviewWrap" class="img-preview-wrap" style="display:none">
-        <img id="imgPreview" class="img-preview" src="" alt="">
-        <button class="img-clear" onclick="clearImage()" title="Remove">&#x2715;</button>
+      <div class="preview-stack">
+        <div id="imgPreviewWrap" class="img-preview-wrap" style="display:none">
+          <img id="imgPreview" class="img-preview" src="" alt="">
+          <button class="img-clear" onclick="clearImage()" title="Remove">&#x2715;</button>
+        </div>
+        <div id="audioPreviewWrap" class="img-preview-wrap" style="display:none">
+          <audio id="audioPreview" class="audio-preview" controls></audio>
+          <button class="img-clear" onclick="clearAudio()" title="Remove">&#x2715;</button>
+        </div>
       </div>
       <div class="input-row">
         <button class="attach-btn" id="attachBtn"
           onclick="document.getElementById('fileInput').click()"
           title="Attach lab image">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+        </button>
+        <button class="attach-btn" id="micBtn" onclick="toggleRecording()" title="Record voice note">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
         </button>
         <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="onImageSelect(event)">
         <textarea id="inp" rows="1"
@@ -414,8 +456,12 @@
   let busy = false;
   let currentMode = 'chat';
   let pendingImage = null; // { base64, mimeType, previewUrl }
+  let pendingAudio = null; // { base64, mimeType, previewUrl }
   let currentFile = null;
   let editorDirty = false;
+  let mediaRecorder = null;
+  let recordingStream = null;
+  let audioChunks = [];
 
   // ── Mode switching ──────────────────────────────────────────────
   function setMode(m) {
@@ -464,6 +510,58 @@
     document.getElementById('attachBtn').classList.remove('has-image');
   }
 
+  async function toggleRecording() {
+    if (mediaRecorder && mediaRecorder.state === 'recording') {
+      mediaRecorder.stop();
+      return;
+    }
+    try {
+      recordingStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      audioChunks = [];
+      const preferredMime = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+        ? 'audio/webm;codecs=opus'
+        : 'audio/webm';
+      mediaRecorder = new MediaRecorder(recordingStream, { mimeType: preferredMime });
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) audioChunks.push(event.data);
+      };
+      mediaRecorder.onstop = () => {
+        const mimeType = mediaRecorder.mimeType || 'audio/webm';
+        const blob = new Blob(audioChunks, { type: mimeType });
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const dataUrl = ev.target.result;
+          const [header, b64] = dataUrl.split(',');
+          const parsedMimeType = header.match(/data:([^;]+)/)[1];
+          pendingAudio = { base64: b64, mimeType: parsedMimeType, previewUrl: dataUrl };
+          const audioPreview = document.getElementById('audioPreview');
+          audioPreview.src = dataUrl;
+          document.getElementById('audioPreviewWrap').style.display = 'flex';
+          document.getElementById('micBtn').classList.remove('recording');
+          document.getElementById('micBtn').classList.add('has-audio');
+        };
+        reader.readAsDataURL(blob);
+        if (recordingStream) {
+          recordingStream.getTracks().forEach(track => track.stop());
+          recordingStream = null;
+        }
+      };
+      mediaRecorder.start();
+      document.getElementById('micBtn').classList.add('recording');
+      document.getElementById('micBtn').classList.remove('has-audio');
+    } catch (error) {
+      alert('Microphone access failed. Check browser permissions and try again.');
+    }
+  }
+
+  function clearAudio() {
+    pendingAudio = null;
+    document.getElementById('audioPreviewWrap').style.display = 'none';
+    document.getElementById('audioPreview').src = '';
+    document.getElementById('micBtn').classList.remove('has-audio');
+    document.getElementById('micBtn').classList.remove('recording');
+  }
+
   // ── Files panel ─────────────────────────────────────────────────
   async function loadFiles() {
     const list = document.getElementById('filesList');
@@ -472,13 +570,13 @@
       const res = await fetch('/api/files');
       const data = await res.json();
       list.innerHTML = '';
-      // group: system_prompt first, then the rest alphabetically
-      const sys = data.files.filter(f => f === 'system_prompt.md');
-      const rest = data.files.filter(f => f !== 'system_prompt.md');
-      [...sys, ...rest].forEach(name => {
+      const promptFiles = ['system_prompt.md', 'prompt_output_style.md', 'prompt_tool_policy.md', 'prompt_transparency.md'];
+      const prompts = promptFiles.filter(name => data.files.includes(name));
+      const rest = data.files.filter(name => !promptFiles.includes(name));
+      [...prompts, ...rest].forEach(name => {
         const el = document.createElement('div');
         el.className = 'file-item' + (name === currentFile ? ' active' : '');
-        el.innerHTML = name === 'system_prompt.md'
+        el.innerHTML = promptFiles.includes(name)
           ? `<span style="color:var(--green);font-weight:600">\u2699\ufe0f</span> ${name}`
           : name;
         el.onclick = () => selectFile(name);
@@ -552,50 +650,144 @@
     if (w) w.remove();
   }
 
-  function md(s) {
-    if (!s) return '';
-    
-    // 1. Basic cleaning
-    let html = s.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  function escapeHtml(text) {
+    return (text || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
 
-    // 2. Tables — handle before lines
-    const lines = html.split('\n');
-    let inTable = false;
-    for (let i = 0; i < lines.length; i++) {
-      if (lines[i].includes('|') && lines[i].includes('---')) {
-        // Divider row
-        lines[i] = ''; 
-        inTable = true;
-      } else if (lines[i].trim().startsWith('|') && lines[i].trim().endsWith('|')) {
-        const cells = lines[i].split('|').filter(c => c.trim() || lines[i].indexOf(c) > 0);
-        const tag = inTable ? 'td' : 'th';
-        lines[i] = '<tr>' + cells.map(c => `<${tag}>${c.trim()}</${tag}>`).join('') + '</tr>';
-        if (!inTable && lines[i+1]?.includes('|') && lines[i+1]?.includes('---')) {
-          lines[i] = '<table border="1"><thead>' + lines[i] + '</thead><tbody>';
-        }
-      } else if (inTable) {
-        lines[i] = '</tbody></table>' + lines[i];
-        inTable = false;
-      }
+  function formatInline(text) {
+    return escapeHtml(text)
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  }
+
+  function isTableLine(line) {
+    return /^\|.*\|$/.test(line.trim());
+  }
+
+  function isSeparatorRow(line) {
+    return /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/.test(line.trim());
+  }
+
+  function renderTable(lines, startIndex) {
+    const header = lines[startIndex].trim();
+    const separator = lines[startIndex + 1]?.trim();
+    if (!isTableLine(header) || !isSeparatorRow(separator || '')) {
+      return null;
     }
-    html = lines.join('\n');
 
+    const splitRow = (row) => row.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(cell => cell.trim());
+    const headers = splitRow(header);
+    const rows = [];
+    let index = startIndex + 2;
+    while (index < lines.length && isTableLine(lines[index])) {
+      rows.push(splitRow(lines[index]));
+      index += 1;
+    }
+
+    const thead = '<thead><tr>' + headers.map(cell => `<th>${formatInline(cell)}</th>`).join('') + '</tr></thead>';
+    const tbody = '<tbody>' + rows.map(row =>
+      '<tr>' + row.map(cell => `<td>${formatInline(cell)}</td>`).join('') + '</tr>'
+    ).join('') + '</tbody>';
+    return { html: `<table>${thead}${tbody}</table>`, nextIndex: index };
+  }
+
+  function applySourceLinks(html) {
     return html
-      .replace(/### (.+)/g,'<h3>$1</h3>')
-      .replace(/## (.+)/g,'<h2>$1</h2>')
-      .replace(/# (.+)/g,'<h1>$1</h1>')
-      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-      .replace(/\*(.+?)\*/g,'<em>$1</em>')
-      .replace(/`(.+?)`/g,'<code>$1</code>')
-      .replace(/^---$/gm,'<hr>')
-      .replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>')
-      .replace(/^[-*] (.+)/gm,'<li>$1</li>')
-      .replace(/(<li>.*<\/li>)/s,'<ul>$1</ul>')
-      .replace(/Source:\s*([\w.\-_]+\.md)/g,
-        'Source: <a class="src-link" onclick="openSourceFile(\'$1\')" href="#">$1</a>')
-      .replace(/\n\n/g,'</p><p>')
-      .replace(/\n/g,'<br>')
-      .replace(/^(.)/,'<p>$1').replace(/(.)$/,'$1</p>');
+      .replace(/<strong>Source:\/strong>\s*([\w.-]+\.md)/g,
+        '<strong>Source:</strong> <a class="src-link" href="#" data-source-file="$1">$1</a>')
+      .replace(/(^|>)(Source:)\s*([\w.-]+\.md)(?=\s|<|$)/g,
+        '$1$2 <a class="src-link" href="#" data-source-file="$3">$3</a>');
+  }
+
+  function md(text) {
+    if (!text) return '';
+    const lines = text.replace(/\r\n/g, '\n').split('\n');
+    const out = [];
+    let index = 0;
+
+    while (index < lines.length) {
+      const raw = lines[index];
+      const line = raw.trim();
+
+      if (!line) {
+        index += 1;
+        continue;
+      }
+
+      const table = renderTable(lines, index);
+      if (table) {
+        out.push(table.html);
+        index = table.nextIndex;
+        continue;
+      }
+
+      if (line === '---') {
+        out.push('<hr>');
+        index += 1;
+        continue;
+      }
+
+      if (line.startsWith('### ')) {
+        out.push(`<h3>${formatInline(line.slice(4))}</h3>`);
+        index += 1;
+        continue;
+      }
+
+      if (line.startsWith('## ')) {
+        out.push(`<h2>${formatInline(line.slice(3))}</h2>`);
+        index += 1;
+        continue;
+      }
+
+      if (line.startsWith('# ')) {
+        out.push(`<h1>${formatInline(line.slice(2))}</h1>`);
+        index += 1;
+        continue;
+      }
+
+      if (line.startsWith('> ')) {
+        out.push(`<blockquote>${formatInline(line.slice(2))}</blockquote>`);
+        index += 1;
+        continue;
+      }
+
+      if (/^[-*]\s+/.test(line)) {
+        const items = [];
+        while (index < lines.length && /^[-*]\s+/.test(lines[index].trim())) {
+          items.push(`<li>${formatInline(lines[index].trim().replace(/^[-*]\s+/, ''))}</li>`);
+          index += 1;
+        }
+        out.push(`<ul>${items.join('')}</ul>`);
+        continue;
+      }
+
+      if (/^\d+\.\s+/.test(line)) {
+        const items = [];
+        while (index < lines.length && /^\d+\.\s+/.test(lines[index].trim())) {
+          items.push(`<li>${formatInline(lines[index].trim().replace(/^\d+\.\s+/, ''))}</li>`);
+          index += 1;
+        }
+        out.push(`<ol>${items.join('')}</ol>`);
+        continue;
+      }
+
+      const paragraph = [];
+      while (index < lines.length) {
+        const current = lines[index].trim();
+        if (!current || current === '---' || current.startsWith('#') || current.startsWith('> ') || /^[-*]\s+/.test(current) || /^\d+\.\s+/.test(current) || renderTable(lines, index)) {
+          break;
+        }
+        paragraph.push(formatInline(current));
+        index += 1;
+      }
+      out.push(`<p>${paragraph.join('<br>')}</p>`);
+    }
+
+    return applySourceLinks(out.join(''));
   }
 
   function openSourceFile(name) {
@@ -603,7 +795,14 @@
     selectFile(name);
   }
 
-  function addMsg(role, text, tools, imageUrl) {
+  document.addEventListener('click', (event) => {
+    const link = event.target.closest('[data-source-file]');
+    if (!link) return;
+    event.preventDefault();
+    openSourceFile(link.getAttribute('data-source-file'));
+  });
+
+  function addMsg(role, text, tools, imageUrl, audioUrl) {
     rmWelcome();
     const wrap = document.getElementById('msgs');
     const outer = document.createElement('div');
@@ -611,9 +810,10 @@
     if (role === 'user') {
       outer.className = 'msg-user';
       const imgHtml  = imageUrl ? `<img class="msg-img" src="${imageUrl}" alt="attached">` : '';
+      const audioHtml = audioUrl ? `<audio class="msg-audio" controls src="${audioUrl}"></audio>` : '';
       const textHtml = text ? `<span>${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span>` : '';
       outer.innerHTML = `
-        <div class="bubble-user">${imgHtml}${textHtml}</div>
+        <div class="bubble-user">${imgHtml}${audioHtml}${textHtml}</div>
         <div class="av-u"><svg width="14" height="14" viewBox="0 0 24 24" fill="#808080"><path d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM6 20c0-3.314 2.686-6 6-6s6 2.686 6 6H6z"/></svg></div>`;
     } else {
       outer.className = 'msg-ai';
@@ -671,14 +871,16 @@
     const btn = document.getElementById('sendBtn');
     const text = inp.value.trim();
     const img  = pendingImage;
-    if ((!text && !img) || busy) return;
+    const audio = pendingAudio;
+    if ((!text && !img && !audio) || busy) return;
 
     inp.value = ''; inp.style.height = 'auto';
     busy = true; btn.disabled = true;
     document.getElementById('modelStatus').textContent = 'Thinking…';
 
     clearImage();
-    addMsg('user', text, null, img?.previewUrl);
+    clearAudio();
+    addMsg('user', text, null, img?.previewUrl, audio?.previewUrl);
     showTyping();
 
     try {
@@ -691,6 +893,10 @@
         payload.image_base64    = img.base64;
         payload.image_mime_type = img.mimeType;
       }
+      if (audio) {
+        payload.audio_base64    = audio.base64;
+        payload.audio_mime_type = audio.mimeType;
+      }
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
@@ -701,7 +907,7 @@
       localStorage.setItem('hp_sess', sessId);
       hideTyping();
       addMsg('ai', data.response || 'No records found.', data.tools_used);
-      addTrace(text || '(image)', data.tools_used);
+      addTrace(text || (audio ? '(voice note)' : '(image)'), data.tools_used);
       document.getElementById('modelStatus').textContent = 'Gemini 3 Flash Preview · Ready';
     } catch(e) {
       hideTyping();

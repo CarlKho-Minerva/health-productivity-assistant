@@ -1,13 +1,13 @@
 # Mental Health & Therapy Notes
 
-*Provider: Exordium Existential Psychotherapy Services — Vincent Thomas Evangelista, RPsy*
+*Provider: Riverstone Counseling — Licensed Therapist*
 *Format: Individual, 60-minute sessions | Modality: Existential-Humanistic + CBT elements*
 *Started: Feb 2026 | Frequency: Bi-weekly*
 
 ## Presenting Concerns
 
 - Executive dysfunction and task paralysis (ADHD-related, compounded by high-stakes academic environment)
-- Identity diffusion from multi-city lifestyle (Minerva University rotation model)
+- Identity diffusion from frequent travel and relocation
 - Perfectionism and fear of stagnation
 - Social isolation during city rotations
 
@@ -24,7 +24,7 @@
 
 | Medication | Dose | Prescriber | Date Started | Notes |
 |------------|------|-----------|--------------|-------|
-| Atomoxetine (Strattera) | 40 mg daily | Dr. Demo Psychiatrist | Oct 2024 | NRI — non-stimulant ADHD. Review Feb 2026: maintained. |
+| Atomoxetine (Strattera) | 40 mg daily | Psychiatry Consultant | Oct 2024 | NRI — non-stimulant ADHD. Review Feb 2026: maintained. |
 
 ## PHQ-9 Scores (Screening)
 
@@ -42,7 +42,7 @@
 
 ## Goals for Therapy
 
-1. Develop sustainable routines that work across multiple time zones and cities
+1. Develop sustainable routines that work across changing schedules and time zones
 2. Build distress tolerance for ambiguous/high-stakes situations
 3. Reduce avoidance behaviors linked to ADHD paralysis
 4. Clarify values and identity independent of external achievement markers

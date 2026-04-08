@@ -1,126 +1,134 @@
-# Track 1 — PPT Slide Content
-*Google Cloud GenAI Academy APAC | Copy-paste directly into the template*
+# Health Passport ADK — Final Slide Content
+*Google Cloud GenAI Academy APAC | Updated for final hackathon submission*
 
 ---
 
-## Slide 1 — Participant Details
+## Slide 1 — Problem + Idea
 
-**a. Participant name:** Carl Kho
+**Project Name:** Health Passport AI
 
-**b. Problem Statement:**
-Build and deploy a single AI agent using ADK and Gemini that is hosted on Cloud Run and performs one clearly defined task — answering natural language questions about personal health records.
+**Problem Statement:**
+Medical history is fragmented across hospitals, cities, camera rolls, paper receipts, lab PDFs, and memory. Patients repeatedly re-explain medications, prescriptions, and recent lab values during every new consultation.
 
-**Brief about the idea:**
+**Short validation lines to say on-slide:**
+- Patients often cannot accurately recall their medication names and dosages.
+- Incomplete patient-reported history contributes to preventable clinical errors.
+- Health records are still frequently trapped in paper, PDF, or image form.
+- Privacy concerns stop many users from adopting cloud-only health apps.
 
-I rotate across 7 cities every semester as a Minerva University student. At every new hospital or clinic, I have to re-explain my full medical history from memory — prescriptions buried in camera roll photos, lab reports in 3 languages, no structured record I can hand a doctor.
+**Solution:**
+Health Passport is a privacy-first health record assistant with two layers:
 
-Health Passport (my existing Android app) already solves the *capture* side: it scans any medical document on-device using a Vision-Language Model on the Qualcomm Hexagon NPU — zero cloud upload, full privacy.
+1. **Capture layer (existing Android app):** on-device document capture and structuring
+2. **Query layer (new ADK agent):** natural-language Q&A over structured health records on Cloud Run
 
-The **Health Record Query Agent** is the cloud complement: a single ADK agent deployed on Cloud Run that lets you ask natural language questions about your health history and get structured, cited answers via Gemini.
-
-- *"What is my current eye prescription?"*
-- *"List my active medications and dosages"*
-- *"What are my latest cholesterol results?"*
+**Core idea:**
+Keep raw capture private, but make records queryable with Gemini.
 
 ---
 
-## Slide 2 — Meeting the Build Criteria
+## Slide 2 — Architecture
 
-| Requirement | Implementation |
+| Layer | What it does | Tech |
+|---|---|---|
+| Mobile capture | Converts medical documents into structured records on-device | Android app + VLM pipeline |
+| Health vault | Stores normalized markdown records | Editable `.md` files |
+| Query agent | Answers questions, updates records, cites sources | Google ADK + Gemini 3 Flash Preview |
+| API + UI | Serves chat, files, image, and audio flows | FastAPI + custom web UI |
+| Deployment | Public serverless runtime | Google Cloud Run |
+
+**Privacy split:**
+- Raw document capture stays local-first
+- Cloud side works on structured records and user queries
+- Source citations and editable prompts keep the system transparent
+
+---
+
+## Slide 3 — What I Built
+
+**Final prototype capabilities:**
+
+- Natural-language health Q&A
+- Table-based answers for labs, meds, vitals, appointments, and vaccines
+- Clickable source citations that open the exact record file
+- Editable Files tab for raw markdown records
+- AI-powered file writing and patching
+- Image upload for lab/photo extraction
+- Audio / voice-note input using Gemini multimodal support
+- Editable backend prompt stack visible in the app
+- Dev mode that opens ADK Studio locally for inspection
+
+**Why this is not a toy demo:**
+- Public Cloud Run deployment
+- Working GitHub repository
+- Real ADK tool-calling workflow
+- Multimodal input in one agent
+- Transparent prompt stack instead of a hidden black box
+
+---
+
+## Slide 4 — End-to-End Flow
+
+```text
+User asks a question / attaches image / records a voice note
+        ↓
+FastAPI app packages text + multimodal attachments
+        ↓
+ADK Runner sends request to Gemini 3 Flash Preview
+        ↓
+Agent calls search_health_records()
+        ↓
+If user requests an update:
+  patch_health_record() or write_health_record()
+        ↓
+Gemini returns a structured answer with source citations
+        ↓
+User clicks Source → exact file opens in Files tab
+```
+
+**Example queries:**
+- “What is my current eye prescription?”
+- “Latest lab results?”
+- “My cholesterol is 102 now, update it.”
+- “Extract this lab image and save it.”
+- “Summarise this voice note and add it to my records.”
+
+---
+
+## Slide 5 — Feature List + Outcomes
+
+| Feature | Outcome |
 |---|---|
-| Implemented using ADK | `Agent` class from `google.adk`, tool-using architecture |
-| Uses a Gemini model | Gemini 2.5 Flash Preview (`gemini-3-flash-preview`) |
-| One clearly defined task | Natural language health record Q&A with cited sources |
-| Accepts input, returns response | JSON input → structured markdown response |
-| HTTP endpoint on Cloud Run | `POST /run` — publicly accessible, serverless |
+| Search across health vault | Fast retrieval across multiple record types |
+| Table-first output style | Easy for doctors/users to scan |
+| Clickable source chips | Verifiable answers, no hidden citations |
+| Files tab editor | Manual transparency + quick correction workflow |
+| AI patch/write tools | Users can update records from chat |
+| Image input | Turns visual reports into structured data |
+| Audio input | Supports spoken notes and quick updates |
+| Editable prompt files | Makes backend behavior inspectable |
+| Cloud Run deployment | Public, shareable submission URL |
 
-**How I navigated Track 1 requirements:**
-
-Rather than building a toy demo, I connected ADK to a real personal health vault — 4 markdown files covering eyes/vision, medications, lab baselines, and active conditions — sourced directly from Health Passport's on-device output format. The agent uses a `search_health_records` tool that keyword-searches the vault and hands matching records to Gemini for synthesis. Every response cites its source file. The whole thing deploys in one command via Cloud Build + Cloud Run.
-
----
-
-## Slide 3 — Opportunities
-
-**How is it different from existing ideas?**
-- Most health AI apps require uploading your medical documents to the cloud — Health Passport does not. Capture is entirely local (NPU inference on Qualcomm Snapdragon). The cloud agent only receives the *question*, never the raw documents.
-- Backed by a real shipped product: working APK on Google Drive, Play Store listing in progress, YouTube demo, built across 4 countries of real health records.
-- Privacy-split architecture is intentional, not incidental — it's the core design decision.
-
-**How does it solve the problem?**
-- Capture (Health Passport Android): scan any medical document → structured markdown, on-device
-- Query (this agent): ask anything about your health history → Gemini synthesizes and cites
-
-**USP:**
-Privacy-first hybrid architecture. On-device capture + cloud intelligence. Real product — not a lab exercise.
+**Current vault categories in prototype:**
+allergies, appointments, biometrics, conditions, eyes, labs, medical expenses, medications, therapy, vaccinations, and prompt files.
 
 ---
 
-## Slide 4 — Features
-
-- **Natural Language Q&A** — ask in plain English, get structured answers
-- **Source Citations** — every answer references its source file (e.g., "Source: medications.md")
-- **Structured Output** — markdown with headers, tables, bullet points
-- **Health Vault Search** — `search_health_records` tool scans body systems, protocols, lab baselines, conditions
-- **Gemini-Powered Synthesis** — understands medical terminology and context
-- **HTTP API** — `POST /run` callable from any client
-- **Serverless** — Cloud Run scales to zero, no idle cost
-
----
-
-## Slide 5 — Process Flow
-
-```
-User
-  │
-  ▼ POST /run {"text": "What is my eye prescription?"}
-Cloud Run — ADK api_server
-  │
-  ▼
-root_agent (Gemini 2.5 Flash)
-  │  understands intent
-  ▼
-search_health_records("eye prescription")
-  │  keyword search
-  ▼
-health_vault/eyes.md  ← returns markdown content
-  │
-  ▼
-Gemini synthesizes answer + cites source
-  │
-  ▼
-{"response": "**Myopic Astigmatism** ...\nSource: eyes.md"}
-  │
-  ▼
-User
-```
-
-**Privacy architecture:**
-
-```
-📱 Health Passport (Android)            ☁️ Health Agent (Cloud Run)
-   On-device NPU inference                ADK + Gemini 2.5 Flash
-   Camera → VLM → Markdown export→        POST /run ← question only
-   ZERO cloud upload                      vault searched locally in container
-   ──────────────────────                 ──────────────────────────────────
-   CAPTURE (private)                      QUERY (cloud)
-```
-
----
-
-## Slide 6 — Technologies
+## Slide 6 — Technologies + Submission Links
 
 | Layer | Technology |
 |---|---|
-| Agent Framework | Google ADK (Agent Development Kit) |
-| LLM | Gemini 2.5 Flash Preview |
-| Deployment | Google Cloud Run (serverless container) |
-| Language | Python 3.11 |
-| Container | Docker |
-| Data | Markdown health vault (4 files) |
-| On-device (existing) | Nexa SDK · Qwen VL · PaddleOCR v4 · Qualcomm Hexagon NPU |
-| Repo | github.com/CarlKho-Minerva/health-productivity-assistant |
+| Agent framework | Google ADK |
+| Model | Gemini 3 Flash Preview |
+| Backend | FastAPI + Python 3.11 |
+| Frontend | Custom HTML/CSS/JS chat UI |
+| Multimodal inputs | Text, image, audio |
+| Deployment | Google Cloud Run |
+| Repository | GitHub |
 
----
+**Submission links:**
+- Cloud Run: https://health-record-agent-hd4kqp35da-uc.a.run.app
+- GitHub: https://github.com/CarlKho-Minerva/health-productivity-assistant
 
-*For the actual PPT file: open `../presentation-slides.html` in Chrome → Cmd+P → Save as PDF*
+**Closing line:**
+Health Passport turns scattered medical history into a portable, privacy-aware, queryable health record system built with ADK and Gemini.

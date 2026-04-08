@@ -41,6 +41,8 @@ class ChatRequest(BaseModel):
     user_id: str = "user"
     image_base64: str | None = None
     image_mime_type: str | None = None
+    audio_base64: str | None = None
+    audio_mime_type: str | None = None
 
 
 @app.get("/")
@@ -70,13 +72,20 @@ async def chat(req: ChatRequest):
         except Exception:
             pass
 
-    # Build parts — text + optional image
-    parts = [types.Part(text=req.message or "(analyze attached image)")]
+    # Build parts — text + optional image/audio
+    parts = [types.Part(text=req.message or "(analyze attached attachment)")]
     if req.image_base64:
         try:
             img_bytes = base64.b64decode(req.image_base64)
             mime = req.image_mime_type or "image/jpeg"
             parts.append(types.Part(inline_data=types.Blob(data=img_bytes, mime_type=mime)))
+        except Exception:
+            pass  # degrade gracefully: send text only
+    if req.audio_base64:
+        try:
+            audio_bytes = base64.b64decode(req.audio_base64)
+            mime = req.audio_mime_type or "audio/webm"
+            parts.append(types.Part(inline_data=types.Blob(data=audio_bytes, mime_type=mime)))
         except Exception:
             pass  # degrade gracefully: send text only
     content = types.Content(role="user", parts=parts)
