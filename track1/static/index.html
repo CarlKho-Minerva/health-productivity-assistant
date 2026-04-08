@@ -243,6 +243,71 @@
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border-card); border-radius: 2px; }
+
+    /* ── ATTACH BUTTON ── */
+    .attach-btn {
+      width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
+      border: 1px solid var(--border-card); background: var(--input-bg);
+      color: var(--text2); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all .15s;
+    }
+    .attach-btn:hover { border-color: var(--green); color: var(--green); }
+    .attach-btn.has-image { border-color: var(--green); color: var(--green); background: var(--green-glow); }
+
+    /* ── IMAGE PREVIEW ── */
+    .img-preview-wrap { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+    .img-preview {
+      max-height: 80px; max-width: 120px; border-radius: 8px;
+      border: 1px solid var(--border-card); object-fit: cover;
+    }
+    .img-clear {
+      width: 20px; height: 20px; border-radius: 50%; background: var(--elevated);
+      border: 1px solid var(--border-card); color: var(--text2);
+      cursor: pointer; font-size: 12px; line-height: 1;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .msg-img {
+      max-width: 200px; max-height: 200px; border-radius: 10px;
+      border: 1px solid var(--border-card); display: block; margin-bottom: 6px;
+    }
+
+    /* ── FILES PANEL ── */
+    .files-panel { display: none; flex: 1; overflow: hidden; }
+    .files-panel.show { display: flex; }
+    .files-sidebar {
+      width: 180px; border-right: 1px solid var(--border);
+      background: var(--surface); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto;
+    }
+    .files-sidebar-hdr {
+      padding: 9px 12px; font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--text3); border-bottom: 1px solid var(--border); flex-shrink: 0;
+    }
+    .file-item {
+      padding: 11px 14px; font-size: 12px; color: var(--text2); cursor: pointer;
+      border-bottom: 1px solid rgba(255,255,255,.025); font-family: monospace; transition: background .1s;
+    }
+    .file-item:hover { background: rgba(255,255,255,.04); color: var(--text); }
+    .file-item.active { color: var(--green); background: var(--green-glow); }
+    .file-loading { padding: 14px; font-size: 12px; color: var(--text3); }
+    .files-editor { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #090909; }
+    .files-toolbar {
+      padding: 8px 14px; display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid var(--border); background: var(--surface); flex-shrink: 0;
+    }
+    .files-toolbar-name { flex: 1; font-size: 13px; font-family: monospace; color: var(--text2); }
+    .save-status { font-size: 11px; color: var(--green); min-width: 40px; }
+    .save-btn {
+      padding: 5px 16px; background: var(--green); color: var(--bg);
+      border: none; border-radius: 6px; font-size: 12px; font-weight: 600;
+      cursor: pointer; opacity: .35; transition: opacity .15s;
+    }
+    .save-btn.active { opacity: 1; }
+    .save-btn:disabled { cursor: not-allowed; }
+    .file-textarea {
+      flex: 1; background: #090909; color: var(--text); border: none; outline: none;
+      padding: 16px; font-size: 13px; font-family: 'SF Mono', 'Menlo', monospace;
+      line-height: 1.65; resize: none; tab-size: 2;
+    }
   </style>
 </head>
 <body>
@@ -254,10 +319,11 @@
     <span class="privacy-badge">cloud AI</span>
   </div>
   <div class="hdr-sub">
-    <span id="modelStatus">Gemini 2.5 Flash · Ready</span>
+    <span id="modelStatus">Gemini 3 Flash Preview · Ready</span>
     <div class="toggle-wrap">
-      <button class="toggle-btn on" id="btnChat" onclick="setMode('chat')">Chat</button>
-      <button class="toggle-btn"   id="btnDev"  onclick="setMode('dev')">Dev</button>
+      <button class="toggle-btn on" id="btnChat"  onclick="setMode('chat')">Chat</button>
+      <button class="toggle-btn"    id="btnFiles" onclick="setMode('files')">Files</button>
+      <button class="toggle-btn"    id="btnDev"   onclick="setMode('dev')">Dev</button>
     </div>
   </div>
 </header>
@@ -271,7 +337,7 @@
     <div class="dev-foot">Session<br><code id="sessDisplay">—</code></div>
   </div>
 
-  <div class="chat-wrap">
+  <div class="chat-wrap" id="chatWrap">
     <div class="msgs" id="msgs">
       <div class="welcome" id="welcome">
         <div class="welcome-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
@@ -289,9 +355,19 @@
     </div>
 
     <div class="input-area">
+      <div id="imgPreviewWrap" class="img-preview-wrap" style="display:none">
+        <img id="imgPreview" class="img-preview" src="" alt="">
+        <button class="img-clear" onclick="clearImage()" title="Remove">&#x2715;</button>
+      </div>
       <div class="input-row">
+        <button class="attach-btn" id="attachBtn"
+          onclick="document.getElementById('fileInput').click()"
+          title="Attach lab image">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+        </button>
+        <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="onImageSelect(event)">
         <textarea id="inp" rows="1"
-          placeholder="Ask about your health records..."
+          placeholder="Ask about your health records…"
           onkeydown="onKey(event)" oninput="autosize(this)"></textarea>
         <button class="send-btn" id="sendBtn" onclick="send()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
@@ -304,19 +380,143 @@
       </div>
     </div>
   </div>
+
+  <div class="files-panel" id="filesPanel">
+    <div class="files-sidebar">
+      <div class="files-sidebar-hdr">Health Vault</div>
+      <div id="filesList"></div>
+    </div>
+    <div class="files-editor">
+      <div class="files-toolbar">
+        <span class="files-toolbar-name" id="editorFilename">Select a file to edit</span>
+        <span class="save-status" id="saveStatus"></span>
+        <button class="save-btn" id="saveBtnEditor" onclick="saveFile()" disabled>Save</button>
+      </div>
+      <textarea class="file-textarea" id="fileContent" spellcheck="false"
+        placeholder="Select a file from the sidebar…" oninput="onEditorChange()"></textarea>
+    </div>
+  </div>
 </div>
 
 <script>
   let sessId = localStorage.getItem('hp_sess') || null;
   let busy = false;
+  let currentMode = 'chat';
+  let pendingImage = null; // { base64, mimeType, previewUrl }
+  let currentFile = null;
+  let editorDirty = false;
 
+  // ── Mode switching ──────────────────────────────────────────────
   function setMode(m) {
-    const dev = m === 'dev';
-    document.getElementById('devPanel').classList.toggle('show', dev);
-    document.getElementById('btnChat').classList.toggle('on', !dev);
-    document.getElementById('btnDev').classList.toggle('on', dev);
+    if (m === 'dev') {
+      const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+      if (isLocal) {
+        window.open('http://localhost:8000', '_blank');
+        return; // stay in current mode; ADK Studio opens in new tab
+      }
+      // Production: toggle inline trace panel alongside chat
+      const showing = document.getElementById('devPanel').classList.toggle('show');
+      document.getElementById('btnDev').classList.toggle('on', showing);
+      return;
+    }
+    currentMode = m;
+    document.getElementById('chatWrap').style.display  = m === 'chat'  ? 'flex' : 'none';
+    document.getElementById('filesPanel').style.display = m === 'files' ? 'flex' : 'none';
+    document.getElementById('btnChat').classList.toggle('on',  m === 'chat');
+    document.getElementById('btnFiles').classList.toggle('on', m === 'files');
+    document.getElementById('btnDev').classList.remove('on');
+    if (m === 'files') loadFiles();
   }
 
+  // ── Image attach ────────────────────────────────────────────────
+  function onImageSelect(e) {
+    const file = e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const dataUrl = ev.target.result;
+      const [header, b64] = dataUrl.split(',');
+      const mimeType = header.match(/data:([^;]+)/)[1];
+      pendingImage = { base64: b64, mimeType, previewUrl: dataUrl };
+      document.getElementById('imgPreview').src = dataUrl;
+      document.getElementById('imgPreviewWrap').style.display = 'flex';
+      document.getElementById('attachBtn').classList.add('has-image');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function clearImage() {
+    pendingImage = null;
+    document.getElementById('imgPreviewWrap').style.display = 'none';
+    document.getElementById('imgPreview').src = '';
+    document.getElementById('attachBtn').classList.remove('has-image');
+  }
+
+  // ── Files panel ─────────────────────────────────────────────────
+  async function loadFiles() {
+    const list = document.getElementById('filesList');
+    list.innerHTML = '<div class="file-loading">Loading…</div>';
+    try {
+      const res = await fetch('/api/files');
+      const data = await res.json();
+      list.innerHTML = '';
+      data.files.forEach(name => {
+        const el = document.createElement('div');
+        el.className = 'file-item' + (name === currentFile ? ' active' : '');
+        el.textContent = name;
+        el.onclick = () => selectFile(name);
+        list.appendChild(el);
+      });
+    } catch(e) {
+      list.innerHTML = '<div class="file-loading">Error loading files</div>';
+    }
+  }
+
+  async function selectFile(name) {
+    document.querySelectorAll('.file-item').forEach(el =>
+      el.classList.toggle('active', el.textContent === name));
+    document.getElementById('editorFilename').textContent = name;
+    const ta = document.getElementById('fileContent');
+    ta.value = 'Loading…'; ta.disabled = true;
+    currentFile = name; editorDirty = false; updateSaveBtn();
+    try {
+      const res = await fetch('/api/files/' + encodeURIComponent(name));
+      const data = await res.json();
+      ta.value = data.content; ta.disabled = false;
+    } catch(e) {
+      ta.value = 'Error loading file.';
+    }
+  }
+
+  function onEditorChange() { editorDirty = true; updateSaveBtn(); }
+
+  function updateSaveBtn() {
+    const btn = document.getElementById('saveBtnEditor');
+    btn.disabled = !editorDirty || !currentFile;
+    btn.classList.toggle('active', !!(editorDirty && currentFile));
+  }
+
+  async function saveFile() {
+    if (!currentFile || !editorDirty) return;
+    const content = document.getElementById('fileContent').value;
+    const status  = document.getElementById('saveStatus');
+    status.textContent = 'Saving…';
+    try {
+      const res = await fetch('/api/files/' + encodeURIComponent(currentFile), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content })
+      });
+      if (res.ok) {
+        editorDirty = false; updateSaveBtn();
+        status.textContent = 'Saved';
+        setTimeout(() => { status.textContent = ''; }, 2000);
+      } else { status.textContent = 'Error'; }
+    } catch(e) { status.textContent = 'Error'; }
+  }
+
+  // ── Chat helpers ─────────────────────────────────────────────────
   function autosize(el) {
     el.style.height = 'auto';
     el.style.height = Math.min(el.scrollHeight, 120) + 'px';
@@ -354,15 +554,17 @@
       .replace(/^(.)/,'<p>$1').replace(/(.)$/,'$1</p>');
   }
 
-  function addMsg(role, text, tools) {
+  function addMsg(role, text, tools, imageUrl) {
     rmWelcome();
     const wrap = document.getElementById('msgs');
     const outer = document.createElement('div');
 
     if (role === 'user') {
       outer.className = 'msg-user';
+      const imgHtml  = imageUrl ? `<img class="msg-img" src="${imageUrl}" alt="attached">` : '';
+      const textHtml = text ? `<span>${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span>` : '';
       outer.innerHTML = `
-        <div class="bubble-user">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+        <div class="bubble-user">${imgHtml}${textHtml}</div>
         <div class="av-u"><svg width="14" height="14" viewBox="0 0 24 24" fill="#808080"><path d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM6 20c0-3.314 2.686-6 6-6s6 2.686 6 6H6z"/></svg></div>`;
     } else {
       outer.className = 'msg-ai';
@@ -411,36 +613,47 @@
       <div class="trace-q">${q.substring(0,55)}${q.length>55?'…':''}</div>
       ${(tools||[]).map(t=>`<span class="trace-tool">${t}()</span>`).join('')}`;
     list.insertBefore(card, list.firstChild);
-    const s = sessId ? sessId.substring(0,16)+'…' : '—';
-    document.getElementById('sessDisplay').textContent = s;
+    document.getElementById('sessDisplay').textContent =
+      sessId ? sessId.substring(0,16)+'…' : '—';
   }
 
   async function send() {
     const inp = document.getElementById('inp');
     const btn = document.getElementById('sendBtn');
     const text = inp.value.trim();
-    if (!text || busy) return;
+    const img  = pendingImage;
+    if ((!text && !img) || busy) return;
 
     inp.value = ''; inp.style.height = 'auto';
     busy = true; btn.disabled = true;
     document.getElementById('modelStatus').textContent = 'Thinking…';
 
-    addMsg('user', text);
+    clearImage();
+    addMsg('user', text, null, img?.previewUrl);
     showTyping();
 
     try {
+      const payload = {
+        message: text || '(analyze attached image)',
+        session_id: sessId,
+        user_id: 'user'
+      };
+      if (img) {
+        payload.image_base64    = img.base64;
+        payload.image_mime_type = img.mimeType;
+      }
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ message: text, session_id: sessId, user_id: 'user' })
+        body: JSON.stringify(payload)
       });
       const data = await res.json();
       sessId = data.session_id;
       localStorage.setItem('hp_sess', sessId);
       hideTyping();
       addMsg('ai', data.response || 'No records found.', data.tools_used);
-      addTrace(text, data.tools_used);
-      document.getElementById('modelStatus').textContent = 'Gemini 2.5 Flash · Ready';
+      addTrace(text || '(image)', data.tools_used);
+      document.getElementById('modelStatus').textContent = 'Gemini 3 Flash Preview · Ready';
     } catch(e) {
       hideTyping();
       addMsg('ai', 'Connection error — please try again.');

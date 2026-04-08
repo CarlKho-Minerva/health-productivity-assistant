@@ -4,6 +4,7 @@ Serves a beautiful chat UI + proxies to ADK agent via Runner API.
 """
 import os
 import uuid
+import base64
 import asyncio
 from pathlib import Path
 from fastapi import FastAPI
@@ -19,7 +20,7 @@ from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
-from health_agent.agent import root_agent
+from health_agent.agent import root_agent, HEALTH_VAULT_DIR
 
 APP_NAME = "health_agent"
 STATIC_DIR = Path(__file__).parent / "static"
@@ -38,6 +39,8 @@ class ChatRequest(BaseModel):
     message: str
     session_id: str | None = None
     user_id: str = "user"
+    image_base64: str | None = None
+    image_mime_type: str | None = None
 
 
 @app.get("/")
@@ -67,7 +70,16 @@ async def chat(req: ChatRequest):
         except Exception:
             pass
 
-    content = types.Content(role="user", parts=[types.Part(text=req.message)])
+    # Build parts — text + optional image
+    parts = [types.Part(text=req.message or "(analyze attached image)")]
+    if req.image_base64:
+        try:
+            img_bytes = base64.b64decode(req.image_base64)
+            mime = req.image_mime_type or "image/jpeg"
+            parts.append(types.Part(inline_data=types.Blob(data=img_bytes, mime_type=mime)))
+        except Exception:
+            pass  # degrade gracefully: send text only
+    content = types.Content(role="user", parts=parts)
     response_text = ""
     tools_used = []
 
@@ -104,6 +116,50 @@ async def chat(req: ChatRequest):
 @app.get("/health")
 async def health():
     return {"status": "ok"}
+
+
+# ── File CRUD API ──────────────────────────────────────────────────────────────
+
+def _safe_md(filename: str) -> bool:
+    """Validate filename is a plain .md file with no path traversal."""
+    return (
+        filename.endswith(".md")
+        and "/" not in filename
+        and "\\" not in filename
+        and ".." not in filename
+        and len(filename) <= 64
+    )
+
+
+@app.get("/api/files")
+async def list_files():
+    files = sorted(
+        f.name for f in HEALTH_VAULT_DIR.glob("*.md") if not f.name.startswith(".")
+    )
+    return {"files": files}
+
+
+@app.get("/api/files/{filename}")
+async def get_file(filename: str):
+    if not _safe_md(filename):
+        return JSONResponse(status_code=400, content={"error": "Invalid filename"})
+    path = HEALTH_VAULT_DIR / filename
+    if not path.exists():
+        return JSONResponse(status_code=404, content={"error": "File not found"})
+    return {"filename": filename, "content": path.read_text(encoding="utf-8")}
+
+
+class FileUpdateRequest(BaseModel):
+    content: str
+
+
+@app.put("/api/files/{filename}")
+async def update_file(filename: str, req: FileUpdateRequest):
+    if not _safe_md(filename):
+        return JSONResponse(status_code=400, content={"error": "Invalid filename"})
+    path = HEALTH_VAULT_DIR / filename
+    path.write_text(req.content, encoding="utf-8")
+    return {"ok": True, "filename": filename}
 
 
 if __name__ == "__main__":

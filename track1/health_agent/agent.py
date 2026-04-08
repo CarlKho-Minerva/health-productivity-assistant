@@ -45,18 +45,78 @@ def search_health_records(query: str) -> str:
     return "\n\n".join(matched)
 
 
+def write_health_record(file_name: str, content: str) -> str:
+    """Create or fully overwrite a health record markdown file.
+
+    Use to create a new file or do a complete rewrite.
+    For small targeted changes prefer patch_health_record.
+
+    Args:
+        file_name: Simple .md filename, e.g. 'lab_baselines.md'. No paths or subdirs.
+        content: Full markdown content to write.
+
+    Returns:
+        Confirmation or error message.
+    """
+    if not file_name.endswith(".md") or "/" in file_name or ".." in file_name:
+        return "Error: file_name must be a plain .md filename with no path components."
+    target = HEALTH_VAULT_DIR / file_name
+    target.write_text(content, encoding="utf-8")
+    return f"OK: wrote {len(content)} chars to {file_name}."
+
+
+def patch_health_record(file_name: str, old_text: str, new_text: str) -> str:
+    """Find and replace an exact piece of text inside a health record file.
+
+    Use this for targeted updates (single value, row, or section).
+    The old_text must match exactly including whitespace.
+
+    Args:
+        file_name: Simple .md filename, e.g. 'lab_baselines.md'. No paths.
+        old_text: Exact text to find (must appear exactly once).
+        new_text: Replacement text.
+
+    Returns:
+        Confirmation or error message.
+    """
+    if not file_name.endswith(".md") or "/" in file_name or ".." in file_name:
+        return "Error: file_name must be a plain .md filename with no path components."
+    target = HEALTH_VAULT_DIR / file_name
+    if not target.exists():
+        return f"Error: {file_name} not found in health vault."
+    current = target.read_text(encoding="utf-8")
+    if old_text not in current:
+        return f"Error: exact text not found in {file_name}. First call search_health_records to read the current content."
+    updated = current.replace(old_text, new_text, 1)
+    target.write_text(updated, encoding="utf-8")
+    return f"OK: patched {file_name} ({len(old_text)} chars → {len(new_text)} chars)."
+
+
 root_agent = Agent(
     name="health_record_agent",
     model="gemini-3-flash-preview",
-    description="Answers natural language questions about personal health records.",
+    description="Answers questions and manages personal health records.",
     instruction="""\
-You are a Health Record Agent for a personal health vault.
+You are a Health Record Agent managing a personal health vault (markdown files).
 
-1. ALWAYS call search_health_records before answering.
+**Reading:**
+1. ALWAYS call search_health_records before answering any health question.
 2. Return structured markdown (headers, bullets, tables).
-3. Cite the source file in every answer (e.g., "Source: medications.md").
+3. Cite the source file (e.g., "Source: lab_baselines.md").
 4. Never fabricate data. If not found, say clearly.
 5. You are not a doctor — only report what the records contain.
+
+**Writing / Updating:**
+6. When the user asks to update, change, add, or record a new value:
+   a. Call search_health_records first to read the exact current content.
+   b. Use patch_health_record for targeted changes (single value or row).
+   c. Use write_health_record only when creating a new file or doing a full rewrite.
+   d. After patching, confirm the change and show the updated value.
+   e. NEVER tell the user to edit files manually — do it yourself with the tools.
+
+**Images:**
+7. If the user provides an image (e.g. a lab report photo), extract all values from it.
+   Then offer to update the health vault automatically using patch/write tools.
 """,
-    tools=[search_health_records],
+    tools=[search_health_records, write_health_record, patch_health_record],
 )
