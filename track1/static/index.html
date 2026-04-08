@@ -352,6 +352,10 @@
       padding: 16px; font-size: 13px; font-family: 'SF Mono', 'Menlo', monospace;
       line-height: 1.65; resize: none; tab-size: 2;
     }
+    .file-textarea:disabled {
+      opacity: 1; color: var(--text3);
+      -webkit-text-fill-color: var(--text3);
+    }
   </style>
 </head>
 <body>
@@ -580,7 +584,8 @@
       ];
       const pinned = pinnedFiles.filter(name => data.files.includes(name));
       const rest = data.files.filter(name => !pinnedFiles.includes(name));
-      [...pinned, ...rest].forEach(name => {
+      const allNames = [...pinned, ...rest];
+      allNames.forEach(name => {
         const el = document.createElement('div');
         el.className = 'file-item' + (name === currentFile ? ' active' : '');
         el.dataset.filename = name;
@@ -592,6 +597,11 @@
         el.onclick = () => selectFile(name);
         list.appendChild(el);
       });
+      // Always load a file so textarea is never blank
+      const fileToLoad = currentFile && allNames.includes(currentFile)
+        ? currentFile
+        : (allNames.find(n => !pinnedFiles.includes(n)) || allNames[0]);
+      if (fileToLoad) selectFile(fileToLoad);
     } catch(e) {
       list.innerHTML = '<div class="file-loading">Error loading files</div>';
     }
@@ -609,7 +619,7 @@
       const data = await res.json();
       ta.value = data.content; ta.disabled = false;
     } catch(e) {
-      ta.value = 'Error loading file.';
+      ta.value = 'Error loading file.'; ta.disabled = false;
     }
   }
 

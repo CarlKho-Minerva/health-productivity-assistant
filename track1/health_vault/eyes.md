@@ -1,45 +1,44 @@
 # Eyes & Vision
 
-*Patient: Alex Rivera*
+*Patient: Arjun Mukherjee*
 
-## Current Prescription (Feb 2026)
+## Current Prescription (Jan 2026)
 
-| Eye | Sphere | Cylinder | Axis | Add | Notes |
-|-----|--------|----------|------|-----|-------|
-| **OD (Right)** | -2.25 | -0.50 | 175° | — | |
-| **OS (Left)** | -2.50 | -0.75 | 10° | — | |
+| Eye | Sphere | Cylinder | Axis | Notes |
+|-----|--------|----------|------|-------|
+| **OD (Right)** | -1.25 | -0.25 | 90° | |
+| **OS (Left)** | -1.00 | -0.50 | 85° | |
 
-**Diagnosis:** Bilateral Myopia with mild Astigmatism
-**Examining Doctor:** Dr. Santos, Clarity Vision Center
-**Date:** February 2026
-**Instruction:** Daily contact lenses (SiHy) or glasses full-time for distance. No reading add needed at this time.
+**Diagnosis:** Mild Bilateral Myopia with minor astigmatism
+**Examining Doctor:** Dr. Kavitha Rao, LV Prasad Eye Institute, Hyderabad
+**Date:** January 2026
+**Instruction:** Glasses or daily contact lenses for distance (screens, lectures, driving).
 
-## Vision Acuity (Sep 2025 Health Exam)
+## Vision Acuity (Nov 2025 Health Exam)
 
 | Eye | Uncorrected | Corrected |
 |-----|-------------|-----------|
-| Right (OD) | 0.2 | 0.9 |
-| Left (OS) | 0.2 | 0.8 |
+| Right (OD) | 0.3 | 1.0 |
+| Left (OS) | 0.4 | 1.0 |
 
-## Intraocular Pressure (Sep 2025)
+## Intraocular Pressure (Jan 2026)
 
 | Eye | Pressure | Reference | Status |
 |-----|----------|-----------|--------|
-| Right | 13 mmHg | 0–20 | Normal |
-| Left | 14 mmHg | 0–20 | Normal |
+| Right | 14 mmHg | 0–20 | Normal |
+| Left | 13 mmHg | 0–20 | Normal |
 
 ## Active Symptoms
 
-- **Dry Eye Syndrome (Jan 2026):** Burning, grittiness after prolonged screen use (6+ hrs). Prescribed Hylo-Forte lubricant drops TID. Screen break reminder set. Blue light glasses for evening work.
-- **Mild photophobia:** Associated with dry eye — resolving with lubricant use.
+- **Screen Eye Strain (Mar 2026):** Dryness and fatigue after long coding/study sessions (8+ hrs). Applying 20-20-20 rule. Using blue light filter mode on laptop. Consider lubricant drops PRN.
 
 ## Lens History
 
-| Date | Type | Brand | Replacement |
-|------|------|-------|-------------|
-| Feb 2026 (current) | Daily SiHy contacts | Acuvue Oasys 1-Day | Daily |
-| Backup glasses | Polycarbonate, anti-glare | Zeiss coating | — |
+| Type | Brand | Replacement |
+|------|-------|-------------|
+| Glasses (primary) | Titan Eyeplus, polycarbonate anti-glare | — |
+| Daily contacts (occasional use) | Bausch & Lomb ULTRA 1-Day | Daily |
 
 ## Next Review
 
-**Scheduled:** August 2026 — annual eye exam + refraction check
+**Scheduled:** January 2027 — annual refraction check

@@ -1,55 +1,41 @@
-# Mental Health & Therapy Notes
+# Mental Health & Wellbeing Notes
 
-*Patient: Alex Rivera*
-*Provider: Mindwell Center — Dr. Aisha Okonkwo, Psy.D.*
-*Format: Individual, 60-minute sessions | Modality: CBT + Mindfulness-Based Stress Reduction (MBSR)*
-*Started: Nov 2025 | Frequency: Bi-weekly*
+*Patient: Arjun Mukherjee*
+*Provider: BITS Pilani Hyderabad — Student Wellness Centre*
+*Format: Walk-in counseling + self-directed CBT tools*
 
-## Presenting Concerns
+## Current Status
 
-- Health anxiety and somatic focus following pre-diabetes and hypertension diagnosis
-- Work-life imbalance and chronic stress (tech industry, remote work)
-- Difficulty maintaining behavioral change (diet, exercise) despite knowing what's needed
-- Mild social withdrawal since relocating to new city
+No active mental health diagnosis. Arjun occasionally uses the Student Wellness Centre for stress management support during exam season.
 
-## Session Log
+## Wellbeing Check-ins
 
-| Session | Date | Key Themes | Tools Used | Notes |
-|---------|------|-----------|------------|-------|
-| 1 | Nov 12, 2025 | Intake — presenting concerns, goals | Narrative, values clarification | Established therapeutic alliance |
-| 2 | Nov 26, 2025 | Health anxiety cycle | CBT thought record | Identified catastrophizing patterns re: lab results |
-| 3 | Dec 10, 2025 | Behavioral activation | Activity scheduling | Exercise + social commitment tracking started |
-| 4 | Jan 7, 2026 | Stress and eating | Mindful eating intro | Linked work stress spikes to late-night snacking |
-| 5 | Mar 18, 2026 | Sleep hygiene + rumination | MBSR body scan | 7-day sleep log review — avg 6.2h → target 7.5h |
-| 6 | May 20, 2026 | TBD | — | Upcoming |
+| Date | PHQ-9 | GAD-7 | Context |
+|------|-------|-------|---------|
+| Nov 2025 | 3 | 4 | End-of-semester stress — within normal range |
+| Feb 2026 | 4 | 5 | Exam pressure + Vitamin D low — still no clinical concern |
+| Apr 2026 | 2 | 3 | Post-exam relief — good baseline |
 
-## PHQ-9 Scores (Depression Screening)
+*PHQ-9 ≤ 4 = Minimal. GAD-7 ≤ 4 = Minimal.*
 
-| Date | Score | Severity |
-|------|-------|----------|
-| Nov 2025 | 9 | Mild |
-| Jan 2026 | 7 | Mild |
-| Mar 2026 | 5 | None–Mild |
+## Stress Management Toolkit (Self-Reported)
 
-## GAD-7 Scores (Anxiety Screening)
+| Practice | Frequency | Notes |
+|----------|-----------|-------|
+| Exercise (basketball / jogging) | 3–4x/week | Primary stress outlet |
+| Sleep (target 7h) | Most nights | Disrupted during exam week |
+| Journaling | Occasional | Uses Notion |
+| Pranayama / breathing | PRN | 5-min box breathing before exams |
 
-| Date | Score | Severity |
-|------|-------|----------|
-| Nov 2025 | 11 | Moderate |
-| Jan 2026 | 8 | Mild |
-| Mar 2026 | 6 | Mild |
+## Counseling Sessions
 
-## Goals for Therapy
+| Session | Date | Focus | Notes |
+|---------|------|-------|-------|
+| Walk-in 1 | Nov 2025 | Exam anxiety, time management | Single session; left with CBT worksheet |
+| Walk-in 2 | Feb 2026 | Motivation dip mid-semester | Behavioral activation plan; follow-up optional |
 
-1. Reduce health anxiety — sit with uncertainty without compulsive googling
-2. Build consistent sleep routine (target: 7.5h/night)
-3. Develop sustainable stress-eating coping strategies
-4. Increase social engagement — 1 in-person social event per week
-5. Maintain metabolic improvements through sustainable behavior change (not restriction)
+## Goals
 
-## Crisis Plan
-
-- **Primary support contact:** Listed in provider file
-- **Crisis line:** 988 Suicide & Crisis Lifeline
-- **Emergency contact:** Listed in provider file
-- **Therapist after-hours:** Mindwell Center crisis line on intake paperwork
+1. Maintain sleep consistency through semester crunch periods
+2. Schedule exercise even during assignment-heavy weeks
+3. Build social connection — attend at least one BITS club event per week

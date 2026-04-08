@@ -1,32 +1,29 @@
 # Allergies & Adverse Reactions
 
-*Last Updated: March 2026 | Patient: Alex Rivera*
+*Last Updated: April 2026 | Patient: Arjun Mukherjee*
 
 ## Drug Allergies
 
 | Drug | Reaction | Severity | Date Noted |
 |------|----------|----------|------------|
-| Sulfonamides (Sulfamethoxazole) | Rash, urticaria | Moderate | 2021 |
-| Aspirin | GI upset, mild bronchoconstriction | Mild–Moderate | 2022 — use acetaminophen |
+| Penicillin (amoxicillin) | Skin rash | Mild | 2018 — use azithromycin instead |
 
 ## Food Intolerances (Non-Allergic)
 
 | Trigger | Reaction | Notes |
 |---------|----------|-------|
-| Shellfish | Hives, itching | Mild — avoid raw/undercooked |
-| Gluten (wheat) | Bloating, fatigue | NCGS suspected — not Celiac by serology |
-| Excessive sugar | Energy crashes, brain fog | Limit refined carbs |
+| Raw onions (large amounts) | Bloating, reflux | Tolerate cooked fine |
+| Excess caffeine (>250mg) | Palpitations, jitteriness | Limit to 1 coffee or 2 teas/day |
 
 ## Environmental
 
 | Allergen | Reaction | Management |
 |----------|----------|------------|
-| Tree pollen (spring) | Rhinitis, watery eyes | Fexofenadine 180mg PRN |
-| Pet dander (cats) | Sneezing, eye irritation | Antihistamine PRN |
-| Mold spores | Nasal congestion | HEPA filter at home |
+| Dust / dust mites | Mild rhinitis, sneezing | Antihistamine PRN (seasonal) |
+| Pollen (spring) | Itchy eyes, sneezing | Cetirizine 10mg PRN |
 
 ## Emergency Notes
 
 - **No known anaphylaxis history**
-- **Carry:** Fexofenadine (antihistamine) PRN
-- **Inform prescribers:** Sulfonamide allergy before any antibiotic course
+- **Carry:** Cetirizine PRN for allergy season
+- **Inform prescribers:** Penicillin allergy before any antibiotic prescription

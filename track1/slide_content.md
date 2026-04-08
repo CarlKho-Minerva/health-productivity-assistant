@@ -86,10 +86,10 @@ Gemini returns a structured answer with source citations
 User clicks Source → exact file opens in Files tab
 ```
 
-**Example queries:**
-- “What is my current eye prescription?”
-- “Latest lab results?”
-- “My cholesterol is 102 now, update it.”
+**Example queries (demo patient: Arjun Mukherjee, BITS Pilani Hyderabad):**
+- "What is my current eye prescription?"
+- "Show me my latest lab results."
+- "My Vitamin D came back at 32 ng/mL after 3 months of supplements — update it."
 - “Extract this lab image and save it.”
 - “Summarise this voice note and add it to my records.”
 

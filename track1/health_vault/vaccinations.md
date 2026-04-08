@@ -1,30 +1,28 @@
 # Vaccinations & Immunizations
 
-*Patient: Alex Rivera*
+*Patient: Arjun Mukherjee*
 
 ## Routine Vaccinations
 
 | Vaccine | Date | Series | Next Due |
 |---------|------|--------|----------|
-| Influenza (Flu) | 2025-10-08 | Annual | Oct 2026 |
-| COVID-19 (mRNA) | 2025-04-20 | Updated booster | Annual per guidelines |
-| Hepatitis A | 2022-06-15 | 2/2 Complete | — |
-| Hepatitis B | 2020-09-10 | 3/3 Complete | — |
-| Tdap (Tetanus/Diphtheria/Pertussis) | 2019-03-22 | Booster | 2029 |
-| MMR | 2010-08-14 | Childhood — 2/2 | — |
-| Varicella | 2010-08-14 | Childhood — 2/2 | — |
+| Influenza (Flu) | Oct 2025 | Annual | Oct 2026 |
+| COVID-19 (Covishield) | Aug 2021 | 2/2 + booster Mar 2022 | Per national schedule |
+| Hepatitis B | Mar 2010 | 3/3 Complete | — |
+| MMR | Jun 2004 | Childhood — 2/2 | — |
+| OPV (Oral Polio) | Childhood series | Complete | — |
+| DPT + Td booster | 2015 | Booster | 2025 (overdue — schedule) |
 
-## Travel Vaccines
+## Typhoid
 
-| Vaccine | Date | Location | Expiry |
-|---------|------|----------|--------|
-| Typhoid (oral Vivotif) | 2024-01-10 | Travel Clinic | 2029 |
-| Japanese Encephalitis | 2024-01-10 | Travel Clinic | 2029 |
-| Yellow Fever | 2023-07-05 | Travel Clinic | Lifetime (post-2016 guidelines) |
+| Vaccine | Date | Type | Expiry |
+|---------|------|------|--------|
+| Typbar TCV | Feb 2024 | Conjugate (Vi-TCV) | 2032 estimated |
 
-## Pending / Due
+## Pending / Recommended
 
-| Vaccine | Due | Notes |
-|---------|-----|-------|
-| Influenza booster | Oct 2026 | Annual |
-| Hepatitis A serology check | 2027 | Confirm immunity at 5 years |
+| Vaccine | Priority | Notes |
+|---------|----------|-------|
+| Td booster | High — overdue | Last DPT 2015; schedule at next GP visit |
+| Hepatitis A | Recommended | Travel + hostel dining; not yet received |
+| HPV (Gardasil 9) | Optional | Consider at next health visit |

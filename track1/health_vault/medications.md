@@ -1,39 +1,28 @@
 # Active Medications & Supplements
 
-*Patient: Alex Rivera | Last Updated: April 2026 | Status: Current*
+*Patient: Arjun Mukherjee | Last Updated: April 2026 | Status: Current*
 
-## Daily Protocol
+## Daily Supplements
 
-### Morning (With Breakfast)
-
-| Medication | Dose | Purpose | Notes |
+| Supplement | Dose | Purpose | Notes |
 |------------|------|---------|-------|
-| Metformin | 500 mg | Pre-diabetes management | With food to minimize GI upset |
-| Vitamin B12 (Methylcobalamin) | 1000 µg sublingual | B12 deficiency | Dissolve under tongue for best absorption |
-| Vitamin D3 | 2000 IU | Vitamin D insufficiency | Take with fatty meal |
-| Fish Oil (Omega-3) | 2 softgels (1g EPA+DHA) | LDL management, cardiovascular | Statin-free approach |
-| Plant Sterol supplement | 1 tablet | LDL support | With largest meal |
+| Vitamin D3 | 1000 IU | Vitamin D insufficiency correction | With breakfast (fatty meal preferred) |
+| Omega-3 Fish Oil | 1 softgel (500mg EPA+DHA) | General preventive, brain health | With any meal |
 
-### Evening
-
-| Medication | Dose | Purpose | Notes |
-|------------|------|---------|-------|
-| Magnesium Glycinate | 300 mg | Sleep quality, muscle tension | 30 min before bed |
-| Ferrous Sulfate | 65 mg elemental iron | Iron borderline deficiency | Empty stomach preferred; avoid with calcium |
-
-## Acute / PRN Medications
+## PRN / Seasonal Medications
 
 | Medication | Status | Notes |
 |------------|--------|-------|
-| Fexofenadine 180mg | Active PRN (spring/fall) | Seasonal allergic rhinitis |
-| Salbutamol (albuterol) inhaler | PRN | Exercise-induced asthma — use before high-intensity exercise |
-| Acetaminophen 500mg | PRN | Headache / mild pain (avoid Aspirin — CI) |
-| Hylo-Forte eye drops | Active — TID | Dry eye syndrome |
-| Ibuprofen gel (topical) | PRN for back | Lower back flare-up — topical preferred over oral |
+| Cetirizine 10mg | PRN — allergy season | Dust/pollen rhinitis; non-drowsy |
+| ORS (oral rehydration salts) | Stocked at home | For gastroenteritis prevention during travel |
+| Paracetamol 500mg | PRN | Fever / mild pain |
 
-## Stopped / Completed
+## Completed Courses
 
-| Medication | Stopped | Reason |
-|------------|---------|--------|
-| Amoxicillin (5-day course) | Feb 2026 | Completed — sinusitis episode |
-| Naproxen oral | Oct 2025 | Switched to topical NSAID + physio for shoulder |
+| Medication | Completed | Reason |
+|------------|-----------|--------|
+| Azithromycin 500mg (5-day) | Oct 2025 | Bacterial pharyngitis — full course completed |
+
+## No Regular Prescription Medications
+
+Arjun is not on any daily prescription drugs. Health is managed through lifestyle, nutrition, and supplementation.

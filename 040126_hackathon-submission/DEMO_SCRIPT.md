@@ -35,9 +35,11 @@ Then cut immediately to your screen.
 
 > *Show: just you, talking. Or start on the welcome screen of the app.*
 
-"I'm a Minerva University student. I rotate across seven cities every semester — San Francisco, Seoul, Hyderabad, Buenos Aires, London, Berlin, Taipei.
+"Right now I'm in Hyderabad for a semester — BITS Pilani campus. Before this, San Francisco. Next semester, somewhere else entirely.
 
-Every single time I walk into a new clinic or hospital, the doctor asks: *'Do you have your previous records?'* And I'm digging through my camera roll, DMing myself lab PDFs in three languages, trying to remember whether my LDL was flagged last December.
+Every time I arrive in a new city and walk into a clinic, the first thing the doctor asks is: *'Do you have your previous records?'* And I'm digging through my camera roll, forwarding PDFs to myself, trying to remember if my Vitamin D was flagged two months ago and whether I updated my glasses prescription since then.
+
+This is the demo patient — Arjun Mukherjee, a student here in Hyderabad. But this scenario? It's real.
 
 **[1]** 70% of patients can't accurately recall their own medication names and dosages.
 **[2]** 1-in-5 medical errors trace back to incomplete patient-reported history.
@@ -81,15 +83,15 @@ That's the capture side: fully private, on-device.
 
 > *Go back to Chat*
 
-**Query 2 — "My total cholesterol is 102 now, update it"**
+**Query 2 — "My Vitamin D result just came back at 32 ng/mL — I've been on supplements 3 months, update it"**
 
-> "Watch this one — I'm telling it to write, not just read."
+> "Watch this one — I'm telling it to write, not just read. Arjun was Vitamin D insufficient at 21.2 — now supplemented and rechecked."
 
 > *Let it respond — it calls `search_health_records` then `patch_health_record`*
 
-"It looked up the existing value, found the exact line, patched it in-place. No manual file editing required.
+"It found the existing lab entry, located the exact value, patched it in-place, added the updated date. No manual file editing.
 
-**[6]** That's the core loop for chronic disease management — values change, records should stay current. The agent just closed that loop."
+**[6]** That's the core loop — a recheck comes back, you tell the agent, it updates the record. Values stay current without you ever opening a markdown file."
 
 ---
 
