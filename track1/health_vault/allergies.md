@@ -1,31 +1,32 @@
 # Allergies & Adverse Reactions
 
-*Last Updated: March 2026*
+*Last Updated: March 2026 | Patient: Alex Rivera*
 
 ## Drug Allergies
 
 | Drug | Reaction | Severity | Date Noted |
 |------|----------|----------|------------|
-| Penicillin | Urticaria (hives), rash | Moderate | 2019 |
-| Ibuprofen (high dose) | Gastric irritation, GI bleed risk | Mild–Moderate | 2023 — use Arcoxia instead |
+| Sulfonamides (Sulfamethoxazole) | Rash, urticaria | Moderate | 2021 |
+| Aspirin | GI upset, mild bronchoconstriction | Mild–Moderate | 2022 — use acetaminophen |
 
 ## Food Intolerances (Non-Allergic)
 
 | Trigger | Reaction | Notes |
 |---------|----------|-------|
-| Dairy (lactose) | Bloating, loose stools | Mild — tolerate small amounts |
-| Excessive caffeine (>300mg) | Palpitations, anxiety amplification | Limit to 1 coffee/day |
-| Alcohol | Facial flushing, rapid HR | ALDH2 variant suspected — avoid |
+| Shellfish | Hives, itching | Mild — avoid raw/undercooked |
+| Gluten (wheat) | Bloating, fatigue | NCGS suspected — not Celiac by serology |
+| Excessive sugar | Energy crashes, brain fog | Limit refined carbs |
 
 ## Environmental
 
 | Allergen | Reaction | Management |
 |----------|----------|------------|
-| Dust mites | Rhinitis, sneezing | Flomist-FT nasal spray PRN |
-| Cold air | Throat irritation, cough | Part of LPRD picture |
+| Tree pollen (spring) | Rhinitis, watery eyes | Fexofenadine 180mg PRN |
+| Pet dander (cats) | Sneezing, eye irritation | Antihistamine PRN |
+| Mold spores | Nasal congestion | HEPA filter at home |
 
 ## Emergency Notes
 
 - **No known anaphylaxis history**
-- **Carry:** antihistamine (cetirizine) PRN
-- **Inform prescribers:** Penicillin allergy before any antibiotic course
+- **Carry:** Fexofenadine (antihistamine) PRN
+- **Inform prescribers:** Sulfonamide allergy before any antibiotic course

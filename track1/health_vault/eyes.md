@@ -1,31 +1,45 @@
 # Eyes & Vision
 
-## Current Prescription (Jan 2026)
+*Patient: Alex Rivera*
 
-| Eye | Sphere | Cylinder | Axis | Notes |
-|-----|--------|----------|------|-------|
-| **OD (Right)** | -1.00 | -0.25 | 80° | |
-| **OS (Left)** | -0.75 | -0.75 | 180° | |
+## Current Prescription (Feb 2026)
 
-**Diagnosis:** Myopic Astigmatism (bilateral)
-**Examining Doctor:** Dr. Demo Ophthalmologist, EO Optical Clinic
-**Date:** January 2026
-**Instruction:** Wear corrective glasses full-time for distance.
+| Eye | Sphere | Cylinder | Axis | Add | Notes |
+|-----|--------|----------|------|-----|-------|
+| **OD (Right)** | -2.25 | -0.50 | 175° | — | |
+| **OS (Left)** | -2.50 | -0.75 | 10° | — | |
 
-## Vision Acuity (Dec 2025 Health Exam)
+**Diagnosis:** Bilateral Myopia with mild Astigmatism
+**Examining Doctor:** Dr. Santos, Clarity Vision Center
+**Date:** February 2026
+**Instruction:** Daily contact lenses (SiHy) or glasses full-time for distance. No reading add needed at this time.
+
+## Vision Acuity (Sep 2025 Health Exam)
 
 | Eye | Uncorrected | Corrected |
 |-----|-------------|-----------|
-| Right (OD) | 0.4 | 0.7 |
-| Left (OS) | 0.3 | 0.6 |
+| Right (OD) | 0.2 | 0.9 |
+| Left (OS) | 0.2 | 0.8 |
 
-## Intraocular Pressure (Dec 2025)
+## Intraocular Pressure (Sep 2025)
 
 | Eye | Pressure | Reference | Status |
 |-----|----------|-----------|--------|
-| Right | 16 mmHg | 0–20 | Normal |
+| Right | 13 mmHg | 0–20 | Normal |
 | Left | 14 mmHg | 0–20 | Normal |
 
 ## Active Symptoms
 
-- **Accommodation Insufficiency (Feb 2026):** Difficulty focusing on near objects (screen). Suspected post-viral sequela from recent flu. Rule of 20-20-20 applied. Monitor.
+- **Dry Eye Syndrome (Jan 2026):** Burning, grittiness after prolonged screen use (6+ hrs). Prescribed Hylo-Forte lubricant drops TID. Screen break reminder set. Blue light glasses for evening work.
+- **Mild photophobia:** Associated with dry eye — resolving with lubricant use.
+
+## Lens History
+
+| Date | Type | Brand | Replacement |
+|------|------|-------|-------------|
+| Feb 2026 (current) | Daily SiHy contacts | Acuvue Oasys 1-Day | Daily |
+| Backup glasses | Polycarbonate, anti-glare | Zeiss coating | — |
+
+## Next Review
+
+**Scheduled:** August 2026 — annual eye exam + refraction check

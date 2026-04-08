@@ -1,48 +1,55 @@
 # Mental Health & Therapy Notes
 
-*Provider: Riverstone Counseling — Licensed Therapist*
-*Format: Individual, 60-minute sessions | Modality: Existential-Humanistic + CBT elements*
-*Started: Feb 2026 | Frequency: Bi-weekly*
+*Patient: Alex Rivera*
+*Provider: Mindwell Center — Dr. Aisha Okonkwo, Psy.D.*
+*Format: Individual, 60-minute sessions | Modality: CBT + Mindfulness-Based Stress Reduction (MBSR)*
+*Started: Nov 2025 | Frequency: Bi-weekly*
 
 ## Presenting Concerns
 
-- Executive dysfunction and task paralysis (ADHD-related, compounded by high-stakes academic environment)
-- Identity diffusion from frequent travel and relocation
-- Perfectionism and fear of stagnation
-- Social isolation during city rotations
+- Health anxiety and somatic focus following pre-diabetes and hypertension diagnosis
+- Work-life imbalance and chronic stress (tech industry, remote work)
+- Difficulty maintaining behavioral change (diet, exercise) despite knowing what's needed
+- Mild social withdrawal since relocating to new city
 
 ## Session Log
 
 | Session | Date | Key Themes | Tools Used | Notes |
 |---------|------|-----------|------------|-------|
-| 1 | Feb 26, 2026 | Intake — goals + history | Narrative exploration | Established therapeutic anchor points |
-| 2 | Mar 5, 2026 | ADHD and self-compassion | CBT reframe, journaling | Introduced "neutral observer" technique |
-| 3 | Mar 19, 2026 | Meaning-making in transience | Existential framework | Work on city-transition anxiety |
-| 4 | Apr 22, 2026 | TBD | — | Upcoming |
+| 1 | Nov 12, 2025 | Intake — presenting concerns, goals | Narrative, values clarification | Established therapeutic alliance |
+| 2 | Nov 26, 2025 | Health anxiety cycle | CBT thought record | Identified catastrophizing patterns re: lab results |
+| 3 | Dec 10, 2025 | Behavioral activation | Activity scheduling | Exercise + social commitment tracking started |
+| 4 | Jan 7, 2026 | Stress and eating | Mindful eating intro | Linked work stress spikes to late-night snacking |
+| 5 | Mar 18, 2026 | Sleep hygiene + rumination | MBSR body scan | 7-day sleep log review — avg 6.2h → target 7.5h |
+| 6 | May 20, 2026 | TBD | — | Upcoming |
 
-## Medications (Psychiatric)
-
-| Medication | Dose | Prescriber | Date Started | Notes |
-|------------|------|-----------|--------------|-------|
-| Atomoxetine (Strattera) | 40 mg daily | Psychiatry Consultant | Oct 2024 | NRI — non-stimulant ADHD. Review Feb 2026: maintained. |
-
-## PHQ-9 Scores (Screening)
+## PHQ-9 Scores (Depression Screening)
 
 | Date | Score | Severity |
 |------|-------|----------|
-| Feb 2026 | 7 | Mild |
+| Nov 2025 | 9 | Mild |
+| Jan 2026 | 7 | Mild |
 | Mar 2026 | 5 | None–Mild |
 
-## GAD-7 Scores (Screening)
+## GAD-7 Scores (Anxiety Screening)
 
 | Date | Score | Severity |
 |------|-------|----------|
-| Feb 2026 | 8 | Mild |
+| Nov 2025 | 11 | Moderate |
+| Jan 2026 | 8 | Mild |
 | Mar 2026 | 6 | Mild |
 
 ## Goals for Therapy
 
-1. Develop sustainable routines that work across changing schedules and time zones
-2. Build distress tolerance for ambiguous/high-stakes situations
-3. Reduce avoidance behaviors linked to ADHD paralysis
-4. Clarify values and identity independent of external achievement markers
+1. Reduce health anxiety — sit with uncertainty without compulsive googling
+2. Build consistent sleep routine (target: 7.5h/night)
+3. Develop sustainable stress-eating coping strategies
+4. Increase social engagement — 1 in-person social event per week
+5. Maintain metabolic improvements through sustainable behavior change (not restriction)
+
+## Crisis Plan
+
+- **Primary support contact:** Listed in provider file
+- **Crisis line:** 988 Suicide & Crisis Lifeline
+- **Emergency contact:** Listed in provider file
+- **Therapist after-hours:** Mindwell Center crisis line on intake paperwork

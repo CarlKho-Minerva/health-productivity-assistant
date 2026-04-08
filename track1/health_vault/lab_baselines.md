@@ -1,59 +1,73 @@
-# Biometrics & Lab Baselines
+# Lab Baselines & Diagnostics
 
-## Anthropometrics
+*Patient: Alex Rivera | Reference Lab: LabCorp / Quest*
+
+## Anthropometrics (Sep 2025 Annual PEC)
 
 | Metric | Result | Reference | Status |
 |--------|--------|-----------|--------|
-| Height | 162.5 cm | — | |
-| Weight | 70.0 kg | — | |
-| BMI | 26.5 | 18.5–24.0 | Overweight |
-| Waist | 90 cm | < 90 cm | At limit |
-| Blood Pressure | 121/72 mmHg | < 130/80 | Normal |
-| Pulse | 74 bpm | 60–100 | Normal |
-| Resp Rate | 16 /min | — | Normal |
+| Height | 178.0 cm | — | |
+| Weight | 78.0 kg | — | |
+| BMI | 24.6 | 18.5–24.9 | Normal |
+| Waist | 86 cm | < 94 cm (M) | Normal |
+| Blood Pressure | 124/80 mmHg | < 130/80 | Normal-High |
+| Pulse | 73 bpm | 60–100 | Normal |
+| Resp Rate | 15 /min | — | Normal |
 
-*Last measured: December 1, 2025*
-
-## Complete Blood Count (CBC) — Dec 1, 2025
+## Complete Blood Count (CBC) — Sep 2025
 
 | Marker | Result | Reference | Status |
 |--------|--------|-----------|--------|
-| RBC | 5.61 | 4.00–5.52 | **High** |
-| Hemoglobin | 16.2 g/dL | 13.0–18.0 | Normal |
-| Hematocrit | 47.7% | 40.0–54.0 | Normal |
-| MCV | 85.0 fL | 81.0–100.0 | Normal |
-| MCH | 28.8 pg | 27.0–32.0 | Normal |
-| MCHC | 33.9 g/dL | 32.0–36.0 | Normal |
-| RDW | 12.9% | 12.0–15.0 | Normal |
-| Platelets | 303 ×10³/µL | 140–450 | Normal |
-| WBC | 7.4 ×10³/µL | 3.8–10.0 | Normal |
+| RBC | 4.82 | 4.50–5.50 | Normal |
+| Hemoglobin | 14.8 g/dL | 13.5–17.5 | Normal |
+| Hematocrit | 44.3% | 41.0–53.0 | Normal |
+| MCV | 86.5 fL | 80.0–100.0 | Normal |
+| MCH | 30.7 pg | 27.0–33.0 | Normal |
+| MCHC | 33.4 g/dL | 32.0–36.0 | Normal |
+| RDW | 13.8% | 11.5–14.5 | Normal |
+| Platelets | 245 ×10³/µL | 150–400 | Normal |
+| WBC | 6.9 ×10³/µL | 4.0–10.0 | Normal |
 
-## Lipid Panel — Dec 1, 2025
+## Lipid Panel — Sep 2025
 
 | Marker | Result | Reference | Status |
 |--------|--------|-----------|--------|
-| Total Cholesterol | 198 mg/dL | < 200 | Borderline |
-| LDL | 128 mg/dL | < 100 | **High** |
-| HDL | 48 mg/dL | > 40 (M) | Normal |
-| Triglycerides | 110 mg/dL | < 150 | Normal |
+| Total Cholesterol | 212 mg/dL | < 200 | **Borderline High** |
+| LDL | 138 mg/dL | < 100 optimal | **Elevated** |
+| HDL | 45 mg/dL | > 40 (M) | Borderline Low |
+| Triglycerides | 145 mg/dL | < 150 | Normal |
+| Non-HDL Chol | 167 mg/dL | < 130 | **High** |
 
-*Note: Statin CI per SLCO1B1 variant — first-line = Omega-3 + Psyllium husk.*
+*Management: Omega-3 2g/day + Plant Sterol spread + reduced saturated fat. Recheck Q6 months.*
 
-## Vitamin D — March 2026
+## HbA1c & Glucose — Sep 2025
 
-| Marker | Result | Target | Status |
+| Marker | Result | Reference | Status |
+|--------|--------|-----------|--------|
+| HbA1c | 5.8% | < 5.7 normal | **Pre-Diabetic** |
+| Fasting Glucose | 104 mg/dL | 70–99 | **Impaired Fasting** |
+| Fasting Insulin | 10.2 µIU/mL | 2.6–24.9 | Normal |
+
+*Action: Metformin 500mg started. Low-GI diet counseling. Recheck HbA1c at 3 months.*
+
+## HbA1c Follow-up — Jan 2026
+
+| Marker | Result | Change | Status |
 |--------|--------|--------|--------|
-| 25-OH Vitamin D | 27.4 ng/mL | ≥ 30 ng/mL | **Insufficient** |
+| HbA1c | 5.6% | ↓ 0.2% | **Normal** — lifestyle + Metformin working |
+| Fasting Glucose | 96 mg/dL | ↓ 8 | Normal |
 
-## Cardiac Imaging — March 17, 2026
+## Vitamins & Micronutrients — Jan 2026
 
-**2D Echocardiogram (AIG Hospitals):** NORMAL
-- LV EF: 62% (good function)
-- All valves normal
-- No structural cardiac abnormality
-- Prior AV Block (ECG Dec 2025) is electrical only — no cardiomyopathy
+| Marker | Result | Reference | Status |
+|--------|--------|-----------|--------|
+| Vitamin B12 | 198 pg/mL | 200–900 | **Deficient** |
+| Vitamin D (25-OH) | 22.5 ng/mL | ≥ 30 | **Insufficient** |
+| Serum Ferritin | 18 µg/L | 20–250 (M) | **Borderline Low** |
+| Folate | 9.2 ng/mL | > 5.4 | Normal |
+| TSH | 2.1 mIU/L | 0.4–4.0 | Normal |
 
 ## Radiology
 
-- **Chest X-Ray (PA):** Clear — no pathology (Aug 2025)
-- **X-Ray PNS (Water's View):** Normal, sinuses clear (Jan 2026)
+- **Lumbar MRI (Apr 2025):** Mild L4-L5 disc bulge, no nerve compression. Physiotherapy recommended.
+- **Chest X-Ray (PA) (Sep 2025):** Clear — no acute pathology.

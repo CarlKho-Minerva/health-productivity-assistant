@@ -1,47 +1,40 @@
 # Active Conditions & Diagnoses
 
-## ENT / Head
+*Patient: Alex Rivera*
+
+## Cardiovascular / Metabolic
 
 | Condition | Date | Doctor | Status |
 |-----------|------|--------|--------|
-| Right Maxillary Sinusitis | Jan 20, 2026 | Dr. Demo ENT | Active |
-| Laryngopharyngeal Reflux (LPRD) | Jan 20, 2026 | Dr. Demo ENT | Active — on Nexpro 40 |
-| Acute Pharyngitis | Jan 15, 2026 | — | Resolved |
-| TMJ Pain | Jan 7, 2026 | — | PRN (Arcoxia 60mg) |
+| Stage 1 Hypertension | Sep 2025 | Dr. Patel, Internal Medicine | Active — lifestyle first, monitor |
+| Pre-Diabetes (HbA1c 5.8%) | Sep 2025 | Dr. Patel | Active — Metformin 500mg + diet |
+| Elevated LDL (Borderline) | Sep 2025 | Dr. Patel | Managed — Omega-3 + plant sterols |
+
+## Respiratory / ENT
+
+| Condition | Date | Status |
+|-----------|------|--------|
+| Seasonal Allergic Rhinitis | Confirmed 2021 | Active — Fexofenadine PRN |
+| Mild Exercise-Induced Asthma | Confirmed 2022 | Stable — Salbutamol inhaler PRN |
 
 ## Eyes / Vision
 
 | Condition | Date | Status |
 |-----------|------|--------|
-| Myopic Astigmatism | Confirmed Jan 2026 | Active — wearing glasses |
-| Accommodation Insufficiency (post-viral) | Feb 2026 | Monitoring — 20-20-20 rule |
+| Myopia (bilateral) | Confirmed 2019 | Active — contact lenses / glasses |
+| Dry Eye Syndrome (digital strain) | Jan 2026 | Active — lubricant drops TID |
 
-## Cardiovascular
-
-| Condition | Date | Status |
-|-----------|------|--------|
-| 1st Degree AV Block (ECG) | Dec 2025 | Stable — echo normal, electrical only |
-| Borderline LDL | Dec 2025 | Managed — Omega-3 + Psyllium |
-
-## Metabolic
+## Musculoskeletal
 
 | Condition | Date | Status |
 |-----------|------|--------|
-| Overweight (BMI 26.5) | Dec 2025 | Active — diet + activity |
-| Abdominal Obesity (waist 90cm) | Dec 2025 | At risk threshold |
-| Vitamin D Insufficiency | Mar 2026 | Active — 2000 IU D3 daily |
+| Chronic Lower Back Pain (L4-L5 tension) | 2023 | Active — physio + stretching |
+| Right Shoulder Impingement | Oct 2025 | Resolving — physio complete |
 
-## Neurodevelopmental
+## Nutritional
 
 | Condition | Date | Status |
 |-----------|------|--------|
-| ADHD (Inattentive) | Confirmed | Active — Atomoxetine 40mg |
-
-## Genetics / Pharmacogenomics
-
-| Variant | Impact |
-|---------|--------|
-| MTHFR C677T + A1298C (compound) | Methylfolate (5-MTHF) instead of folic acid |
-| MTRR + TCN2 variants | Methylcobalamin B12 sublingual required |
-| SLCO1B1 | Statin contraindicated — Omega-3 + Psyllium as first-line |
-| VDR FokI ff | Higher Vitamin D3 dose needed |
+| Vitamin B12 Deficiency | Jan 2026 | Active — B12 1000mcg sublingual |
+| Vitamin D Insufficiency | Sep 2025 | Active — D3 2000 IU daily |
+| Iron Deficiency (borderline) | Sep 2025 | Monitoring — dietary increase |
