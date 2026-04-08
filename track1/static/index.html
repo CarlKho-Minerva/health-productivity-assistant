@@ -576,6 +576,7 @@
       [...prompts, ...rest].forEach(name => {
         const el = document.createElement('div');
         el.className = 'file-item' + (name === currentFile ? ' active' : '');
+        el.dataset.filename = name;
         el.innerHTML = promptFiles.includes(name)
           ? `<span style="color:var(--green);font-weight:600">\u2699\ufe0f</span> ${name}`
           : name;
@@ -589,7 +590,7 @@
 
   async function selectFile(name) {
     document.querySelectorAll('.file-item').forEach(el =>
-      el.classList.toggle('active', el.textContent === name));
+      el.classList.toggle('active', el.dataset.filename === name));
     document.getElementById('editorFilename').textContent = name;
     const ta = document.getElementById('fileContent');
     ta.value = 'Loading…'; ta.disabled = true;
@@ -697,7 +698,7 @@
 
   function applySourceLinks(html) {
     return html
-      .replace(/<strong>Source:\/strong>\s*([\w.-]+\.md)/g,
+      .replace(/<strong>Source:<\/strong>\s*([\w.-]+\.md)/g,
         '<strong>Source:</strong> <a class="src-link" href="#" data-source-file="$1">$1</a>')
       .replace(/(^|>)(Source:)\s*([\w.-]+\.md)(?=\s|<|$)/g,
         '$1$2 <a class="src-link" href="#" data-source-file="$3">$3</a>');
@@ -885,7 +886,7 @@
 
     try {
       const payload = {
-        message: text || '(analyze attached image)',
+        message: text || '(analyze attached record)',
         session_id: sessId,
         user_id: 'user'
       };
