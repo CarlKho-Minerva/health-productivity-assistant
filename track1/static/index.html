@@ -2,6 +2,460 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Health Passport AI</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:          #070707;
+      --surface:     #0d0d0d;
+      --card:        #111111;
+      --input-bg:    #0f0f0f;
+      --elevated:    #141414;
+      --border:      #1a1a1a;
+      --border-card: #1f1f1f;
+      --green:       #10b981;
+      --green-dim:   #0d9668;
+      --green-glow:  rgba(16,185,129,.12);
+      --cyan:        #22d3ee;
+      --text:        #f2f2f2;
+      --text2:       #808080;
+      --text3:       #4d4d4d;
+      --user-bg:     #1a1a1a;
+      --ai-bg:       #0f0f0f;
+      --ai-border:   #1a1a1a;
+      --radius:      14px;
+    }
+    html, body {
+      height: 100%; background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
+    body { display: flex; flex-direction: column; height: 100dvh; }
+
+    /* ── HEADER ── */
+    header {
+      flex-shrink: 0;
+      background: linear-gradient(180deg, #0f0f0f 0%, #070707 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 18px 12px;
+    }
+    .hdr-top {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .status-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse-dot 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100%{ box-shadow: 0 0 4px var(--green); }
+      50%    { box-shadow: 0 0 12px var(--green); }
+    }
+    .hdr-title {
+      flex: 1; font-size: 21px; font-weight: 600; letter-spacing: -.03em; color: var(--text);
+    }
+    .privacy-badge {
+      font-size: 10px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase;
+      color: var(--green);
+    }
+    .hdr-sub {
+      margin-top: 4px; margin-left: 18px;
+      font-size: 12px; color: var(--text2);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .toggle-wrap {
+      display: flex; background: #0a0a0a; border: 1px solid var(--border-card);
+      border-radius: 8px; overflow: hidden;
+    }
+    .toggle-btn {
+      padding: 4px 12px; font-size: 11px; font-weight: 500;
+      background: none; border: none; color: var(--text2); cursor: pointer;
+      transition: all .15s; white-space: nowrap;
+    }
+    .toggle-btn.on { background: var(--green-glow); color: var(--green); }
+
+    /* ── BODY ── */
+    .body-row { display: flex; flex: 1; overflow: hidden; }
+
+    /* DEV PANEL */
+    .dev-panel {
+      width: 240px; border-right: 1px solid var(--border);
+      background: var(--surface); display: none; flex-direction: column; flex-shrink: 0;
+    }
+    .dev-panel.show { display: flex; }
+    .dev-hdr {
+      padding: 9px 12px; font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--text3); border-bottom: 1px solid var(--border);
+    }
+    .dev-list { flex: 1; overflow-y: auto; padding: 8px; }
+    .trace-card {
+      background: var(--card); border: 1px solid var(--border-card);
+      border-radius: 8px; padding: 8px 10px; margin-bottom: 6px; font-size: 11px;
+    }
+    .trace-time { color: var(--text3); font-size: 10px; margin-bottom: 3px; }
+    .trace-q { color: var(--text2); margin-bottom: 5px; line-height: 1.4; }
+    .trace-tool {
+      display: inline-block; font-family: monospace; font-size: 10px;
+      background: var(--green-glow); color: var(--green);
+      border: 1px solid rgba(16,185,129,.2); border-radius: 4px;
+      padding: 1px 6px; margin: 1px 2px 0 0;
+    }
+    .dev-foot {
+      padding: 8px 12px; border-top: 1px solid var(--border);
+      font-size: 10px; color: var(--text3);
+    }
+    .dev-foot code { color: var(--text2); font-family: monospace; word-break: break-all; }
+    .dev-empty { text-align: center; font-size: 12px; color: var(--text3); padding: 20px 12px; }
+
+    /* CHAT WRAP */
+    .chat-wrap { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* MESSAGES */
+    .msgs {
+      flex: 1; overflow-y: auto; padding: 16px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+
+    /* Welcome */
+    .welcome {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; flex: 1; text-align: center; gap: 18px; padding: 24px;
+    }
+    .welcome-icon {
+      width: 64px; height: 64px; border-radius: 20px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; box-shadow: 0 0 30px rgba(16,185,129,.3);
+    }
+    .welcome h2 { font-size: 22px; font-weight: 700; letter-spacing: -.02em; }
+    .welcome p { font-size: 14px; color: var(--text2); max-width: 340px; line-height: 1.6; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 480px; }
+    .chip {
+      padding: 7px 16px; background: var(--card); border: 1px solid var(--border-card);
+      border-radius: 20px; font-size: 13px; color: var(--text2);
+      cursor: pointer; transition: all .15s; line-height: 1.3;
+    }
+    .chip:hover { border-color: var(--green); color: var(--green); background: var(--green-glow); }
+
+    /* User message — flush right, dark card */
+    .msg-user {
+      align-self: flex-end;
+      display: flex; align-items: flex-end; gap: 8px; max-width: 80%;
+    }
+    .bubble-user {
+      background: var(--user-bg); border: 1px solid var(--border-card);
+      border-radius: var(--radius) var(--radius) 3px var(--radius);
+      padding: 10px 14px; font-size: 14px; line-height: 1.55; color: var(--text);
+    }
+    .av-u {
+      width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+      background: #1a1a1a; border: 1px solid var(--border-card);
+      display: flex; align-items: center; justify-content: center; font-size: 13px;
+    }
+
+    /* AI message */
+    .msg-ai {
+      align-self: flex-start;
+      display: flex; align-items: flex-start; gap: 8px; max-width: 88%;
+    }
+    .av-a {
+      width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+      background: linear-gradient(135deg,#10b981,#059669);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; box-shadow: 0 0 8px rgba(16,185,129,.25); margin-top: 1px;
+    }
+    .bubble-ai {
+      background: var(--ai-bg); border: 1px solid var(--ai-border);
+      border-radius: var(--radius) var(--radius) var(--radius) 3px;
+      padding: 10px 14px; font-size: 14px; line-height: 1.6; color: var(--text);
+    }
+    .bubble-ai.typing { color: var(--text3); }
+    .tool-pills { margin-bottom: 7px; display: flex; flex-wrap: wrap; gap: 4px; }
+    .tool-pill {
+      font-family: monospace; font-size: 11px; color: var(--green);
+      background: var(--green-glow); border: 1px solid rgba(16,185,129,.2);
+      border-radius: 4px; padding: 1px 7px;
+    }
+
+    /* Typing dots */
+    .dots { display: inline-flex; gap: 5px; align-items: center; }
+    .dots span {
+      width: 5px; height: 5px; border-radius: 50%; background: var(--text3);
+      animation: hop 1.2s ease-in-out infinite;
+    }
+    .dots span:nth-child(2){animation-delay:.2s}
+    .dots span:nth-child(3){animation-delay:.4s}
+    @keyframes hop{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+
+    /* Markdown render */
+    .md-content strong { font-weight: 600; color: var(--text); }
+    .md-content em { font-style: italic; color: var(--text2); }
+    .md-content code {
+      background: rgba(255,255,255,.05); padding: 1px 5px;
+      border-radius: 4px; font-family: monospace; font-size: 12px; color: var(--cyan);
+    }
+    .md-content p { margin-bottom: 6px; }
+    .md-content p:last-child { margin-bottom: 0; }
+    .md-content ul, .md-content ol { padding-left: 18px; margin: 5px 0; }
+    .md-content li { margin-bottom: 3px; }
+    .md-content h1,.md-content h2,.md-content h3 {
+      font-weight: 600; margin: 8px 0 4px; color: var(--text);
+    }
+    .md-content h3 { font-size: 14px; }
+    .md-content blockquote {
+      border-left: 2px solid var(--green); padding-left: 10px;
+      color: var(--text2); margin: 6px 0;
+    }
+    .md-content hr {
+      border: none; border-top: 1px solid var(--border); margin: 8px 0;
+    }
+
+    /* INPUT */
+    .input-area {
+      flex-shrink: 0; background: var(--surface);
+      border-top: 1px solid var(--border); padding: 12px 16px 14px;
+    }
+    .input-row { display: flex; gap: 8px; align-items: flex-end; }
+    textarea {
+      flex: 1; background: var(--input-bg); border: 1px solid var(--border-card);
+      border-radius: 12px; padding: 10px 14px; color: var(--text);
+      font-size: 14px; font-family: inherit; resize: none; outline: none;
+      min-height: 42px; max-height: 120px; line-height: 1.5; transition: border-color .15s;
+    }
+    textarea:focus { border-color: var(--green); }
+    textarea::placeholder { color: var(--text3); }
+    .send-btn {
+      width: 42px; height: 42px; border-radius: 12px; border: none;
+      background: var(--green); color: var(--bg); font-size: 16px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: opacity .15s; flex-shrink: 0;
+    }
+    .send-btn:hover { opacity: .85; }
+    .send-btn:disabled { opacity: .3; cursor: not-allowed; }
+    .input-hint {
+      margin-top: 7px; text-align: center; font-size: 11px; color: var(--text3);
+    }
+    .input-hint a { color: var(--green); text-decoration: none; }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-card); border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hdr-top">
+    <div class="status-dot"></div>
+    <span class="hdr-title">Health Passport</span>
+    <span class="privacy-badge">cloud AI</span>
+  </div>
+  <div class="hdr-sub">
+    <span id="modelStatus">Gemini 2.5 Flash · Ready</span>
+    <div class="toggle-wrap">
+      <button class="toggle-btn on" id="btnChat" onclick="setMode('chat')">Chat</button>
+      <button class="toggle-btn"   id="btnDev"  onclick="setMode('dev')">Dev</button>
+    </div>
+  </div>
+</header>
+
+<div class="body-row">
+  <div class="dev-panel" id="devPanel">
+    <div class="dev-hdr">Event Trace</div>
+    <div class="dev-list" id="traceList">
+      <div class="dev-empty" id="traceEmpty">Send a message to see tool calls</div>
+    </div>
+    <div class="dev-foot">Session<br><code id="sessDisplay">—</code></div>
+  </div>
+
+  <div class="chat-wrap">
+    <div class="msgs" id="msgs">
+      <div class="welcome" id="welcome">
+        <div class="welcome-icon">🏥</div>
+        <h2>Health Passport AI</h2>
+        <p>Your health records, queryable in plain English. Ask about prescriptions, medications, labs, or manage health tasks.</p>
+        <div class="chips">
+          <div class="chip" onclick="chip(this)">What's my eye prescription?</div>
+          <div class="chip" onclick="chip(this)">What medications do I take?</div>
+          <div class="chip" onclick="chip(this)">Show my cholesterol levels</div>
+          <div class="chip" onclick="chip(this)">Latest lab results?</div>
+          <div class="chip" onclick="chip(this)">Summarise my health profile</div>
+          <div class="chip" onclick="chip(this)">Any genetic health risks?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <div class="input-row">
+        <textarea id="inp" rows="1"
+          placeholder="Ask about your health records..."
+          onkeydown="onKey(event)" oninput="autosize(this)"></textarea>
+        <button class="send-btn" id="sendBtn" onclick="send()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+      <div class="input-hint">
+        Built with Google ADK ·
+        <a href="https://github.com/CarlKho-Minerva/health-productivity-assistant" target="_blank">GitHub</a>
+        · Gen AI Academy APAC 2026
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let sessId = localStorage.getItem('hp_sess') || null;
+  let busy = false;
+
+  function setMode(m) {
+    const dev = m === 'dev';
+    document.getElementById('devPanel').classList.toggle('show', dev);
+    document.getElementById('btnChat').classList.toggle('on', !dev);
+    document.getElementById('btnDev').classList.toggle('on', dev);
+  }
+
+  function autosize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+
+  function onKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  }
+
+  function chip(el) {
+    document.getElementById('inp').value = el.textContent;
+    send();
+  }
+
+  function rmWelcome() {
+    const w = document.getElementById('welcome');
+    if (w) w.remove();
+  }
+
+  function md(s) {
+    if (!s) return '';
+    return s
+      .replace(/### (.+)/g,'<h3>$1</h3>')
+      .replace(/## (.+)/g,'<h2>$1</h2>')
+      .replace(/# (.+)/g,'<h1>$1</h1>')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,'<em>$1</em>')
+      .replace(/`(.+?)`/g,'<code>$1</code>')
+      .replace(/^---$/gm,'<hr>')
+      .replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>')
+      .replace(/^[-*] (.+)/gm,'<li>$1</li>')
+      .replace(/(<li>.*<\/li>)/s,'<ul>$1</ul>')
+      .replace(/\n\n/g,'</p><p>')
+      .replace(/\n/g,'<br>')
+      .replace(/^(.)/,'<p>$1').replace(/(.)$/,'$1</p>');
+  }
+
+  function addMsg(role, text, tools) {
+    rmWelcome();
+    const wrap = document.getElementById('msgs');
+    const outer = document.createElement('div');
+
+    if (role === 'user') {
+      outer.className = 'msg-user';
+      outer.innerHTML = `
+        <div class="bubble-user">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+        <div class="av-u">👤</div>`;
+    } else {
+      outer.className = 'msg-ai';
+      let inner = '';
+      if (tools && tools.length) {
+        inner += '<div class="tool-pills">' +
+          tools.map(t=>`<span class="tool-pill">${t}()</span>`).join('') + '</div>';
+      }
+      inner += `<div class="md-content">${md(text)}</div>`;
+      outer.innerHTML = `
+        <div class="av-a">🤖</div>
+        <div class="bubble-ai">${inner}</div>`;
+    }
+
+    wrap.appendChild(outer);
+    wrap.scrollTop = wrap.scrollHeight;
+    return outer;
+  }
+
+  function showTyping() {
+    rmWelcome();
+    const wrap = document.getElementById('msgs');
+    const div = document.createElement('div');
+    div.id = 'typing'; div.className = 'msg-ai';
+    div.innerHTML = `<div class="av-a">🤖</div>
+      <div class="bubble-ai typing">
+        <div class="dots"><span></span><span></span><span></span></div>
+      </div>`;
+    wrap.appendChild(div);
+    wrap.scrollTop = wrap.scrollHeight;
+  }
+
+  function hideTyping() {
+    const el = document.getElementById('typing');
+    if (el) el.remove();
+  }
+
+  function addTrace(q, tools) {
+    const list = document.getElementById('traceList');
+    const empty = document.getElementById('traceEmpty');
+    if (empty) empty.remove();
+    const card = document.createElement('div');
+    card.className = 'trace-card';
+    card.innerHTML = `
+      <div class="trace-time">${new Date().toLocaleTimeString()}</div>
+      <div class="trace-q">${q.substring(0,55)}${q.length>55?'…':''}</div>
+      ${(tools||[]).map(t=>`<span class="trace-tool">${t}()</span>`).join('')}`;
+    list.insertBefore(card, list.firstChild);
+    const s = sessId ? sessId.substring(0,16)+'…' : '—';
+    document.getElementById('sessDisplay').textContent = s;
+  }
+
+  async function send() {
+    const inp = document.getElementById('inp');
+    const btn = document.getElementById('sendBtn');
+    const text = inp.value.trim();
+    if (!text || busy) return;
+
+    inp.value = ''; inp.style.height = 'auto';
+    busy = true; btn.disabled = true;
+    document.getElementById('modelStatus').textContent = 'Thinking…';
+
+    addMsg('user', text);
+    showTyping();
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ message: text, session_id: sessId, user_id: 'user' })
+      });
+      const data = await res.json();
+      sessId = data.session_id;
+      localStorage.setItem('hp_sess', sessId);
+      hideTyping();
+      addMsg('ai', data.response || 'No records found.', data.tools_used);
+      addTrace(text, data.tools_used);
+      document.getElementById('modelStatus').textContent = 'Gemini 2.5 Flash · Ready';
+    } catch(e) {
+      hideTyping();
+      addMsg('ai', 'Connection error — please try again.');
+      document.getElementById('modelStatus').textContent = 'Error — retry';
+    }
+
+    busy = false; btn.disabled = false; inp.focus();
+  }
+
+  document.getElementById('inp').focus();
+</script>
+</body>
+</html>
+<head>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Health Passport AI</title>
   <style>
@@ -208,7 +662,7 @@
   <div class="hd-left">
     <div class="logo">🏥</div>
     <span class="hd-title">Health Passport AI</span>
-    <span class="hd-badge">✦ Gemini 2.5 Flash · ADK · Cloud Run</span>
+    <span class="hd-badge">✦ Gemini 3 Flash Preview · ADK · Cloud Run</span>
   </div>
   <div style="display:flex;align-items:center;gap:12px">
     <div class="pulse" title="Online"></div>
