@@ -200,6 +200,9 @@
     .md-content p:last-child { margin-bottom: 0; }
     .md-content ul, .md-content ol { padding-left: 18px; margin: 5px 0; }
     .md-content li { margin-bottom: 3px; }
+    .md-content table { border-collapse: collapse; width: 100%; margin: 10px 0; background: #111; border: 1px solid var(--border); }
+    .md-content th, .md-content td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; font-size: 13px; }
+    .md-content th { background: #1a1a1a; font-weight: 600; color: var(--green); }
     .md-content h1,.md-content h2,.md-content h3 {
       font-weight: 600; margin: 8px 0 4px; color: var(--text);
     }
@@ -551,7 +554,33 @@
 
   function md(s) {
     if (!s) return '';
-    return s
+    
+    // 1. Basic cleaning
+    let html = s.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    // 2. Tables — handle before lines
+    const lines = html.split('\n');
+    let inTable = false;
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].includes('|') && lines[i].includes('---')) {
+        // Divider row
+        lines[i] = ''; 
+        inTable = true;
+      } else if (lines[i].trim().startsWith('|') && lines[i].trim().endsWith('|')) {
+        const cells = lines[i].split('|').filter(c => c.trim() || lines[i].indexOf(c) > 0);
+        const tag = inTable ? 'td' : 'th';
+        lines[i] = '<tr>' + cells.map(c => `<${tag}>${c.trim()}</${tag}>`).join('') + '</tr>';
+        if (!inTable && lines[i+1]?.includes('|') && lines[i+1]?.includes('---')) {
+          lines[i] = '<table border="1"><thead>' + lines[i] + '</thead><tbody>';
+        }
+      } else if (inTable) {
+        lines[i] = '</tbody></table>' + lines[i];
+        inTable = false;
+      }
+    }
+    html = lines.join('\n');
+
+    return html
       .replace(/### (.+)/g,'<h3>$1</h3>')
       .replace(/## (.+)/g,'<h2>$1</h2>')
       .replace(/# (.+)/g,'<h1>$1</h1>')
