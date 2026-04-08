@@ -211,6 +211,14 @@
     .md-content hr {
       border: none; border-top: 1px solid var(--border); margin: 8px 0;
     }
+    .src-link {
+      font-family: monospace; font-size: 12px;
+      color: var(--green); text-decoration: none;
+      background: var(--green-glow); border: 1px solid rgba(16,185,129,.2);
+      border-radius: 4px; padding: 1px 7px; cursor: pointer;
+      transition: background .1s;
+    }
+    .src-link:hover { background: rgba(16,185,129,.2); }
 
     /* INPUT */
     .input-area {
@@ -549,9 +557,16 @@
       .replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>')
       .replace(/^[-*] (.+)/gm,'<li>$1</li>')
       .replace(/(<li>.*<\/li>)/s,'<ul>$1</ul>')
+      .replace(/Source:\s*([\w.\-_]+\.md)/g,
+        'Source: <a class="src-link" onclick="openSourceFile(\'$1\')" href="#">$1</a>')
       .replace(/\n\n/g,'</p><p>')
       .replace(/\n/g,'<br>')
       .replace(/^(.)/,'<p>$1').replace(/(.)$/,'$1</p>');
+  }
+
+  function openSourceFile(name) {
+    setMode('files');
+    selectFile(name);
   }
 
   function addMsg(role, text, tools, imageUrl) {
