@@ -18,7 +18,11 @@ _PROMPT_FILES = [
     "prompt_tool_policy.md",
     "prompt_transparency.md",
 ]
-_EXCLUDED_FROM_SEARCH = set(_PROMPT_FILES)
+_META_FILES = [
+    "runtime_manifest.md",
+    "vault_provenance.md",
+]
+_EXCLUDED_FROM_SEARCH = set(_PROMPT_FILES + _META_FILES)
 
 
 def search_health_records(query: str) -> str:
@@ -140,6 +144,27 @@ Transparency:
 """,
 }
 
+_DEFAULT_PROVENANCE = """\
+# Vault Provenance
+
+This app answers from markdown files in `track1/health_vault`.
+
+Visible file groups:
+- Core health files: `conditions.md`, `eyes.md`, `lab_baselines.md`, `medications.md`
+- Added demo/mock files: `allergies.md`, `appointments.md`, `biometrics.md`, `medical_expenses.md`, `therapy.md`, `vaccinations.md`
+- Prompt stack files: `system_prompt.md`, `prompt_output_style.md`, `prompt_tool_policy.md`, `prompt_transparency.md`
+
+Commit provenance for demo/mock content:
+- `ee5ab90` added `vaccinations.md`, `medical_expenses.md`, initial editable `system_prompt.md`, and initial `biometrics.md`
+- `3b5c34b` added `allergies.md`, `appointments.md`, `therapy.md`, and expanded `biometrics.md`
+- `4595e48` updated prompt files and refreshed some demo record content for the final demo
+
+Important:
+- The agent does not read hidden database rows or hidden backend memory.
+- It reads the visible markdown files shown in the Files tab.
+- If those files are edited or deleted, the output changes accordingly.
+"""
+
 
 def _ensure_prompt_files() -> None:
     for file_name, default_text in _DEFAULT_PROMPTS.items():
@@ -147,8 +172,49 @@ def _ensure_prompt_files() -> None:
         if not target.exists():
             target.write_text(default_text, encoding="utf-8")
 
+    provenance_file = HEALTH_VAULT_DIR / "vault_provenance.md"
+    if not provenance_file.exists():
+        provenance_file.write_text(_DEFAULT_PROVENANCE, encoding="utf-8")
+
 
 _ensure_prompt_files()
+
+
+def _write_runtime_manifest() -> None:
+    prompt_sections = []
+    for file_name in _PROMPT_FILES:
+        prompt_file = HEALTH_VAULT_DIR / file_name
+        if prompt_file.exists():
+            prompt_sections.append(
+                f"## {file_name}\n\n{prompt_file.read_text(encoding='utf-8').strip()}"
+            )
+
+    searchable_files = sorted(
+        f.name for f in HEALTH_VAULT_DIR.glob("*.md") if f.name not in _EXCLUDED_FROM_SEARCH
+    )
+    manifest_lines = [
+        "# Runtime Manifest",
+        "",
+        "This file exposes the exact backend prompt stack and the exact searchable markdown files used by the live app.",
+        "",
+        "## Searchable Health Vault Files",
+        "",
+        *[f"- {name}" for name in searchable_files],
+        "",
+        "## Prompt Stack Order",
+        "",
+        *[f"{index}. {name}" for index, name in enumerate(_PROMPT_FILES, start=1)],
+        "",
+        "## Combined Prompt Files",
+        "",
+        *prompt_sections,
+    ]
+    (HEALTH_VAULT_DIR / "runtime_manifest.md").write_text(
+        "\n".join(manifest_lines), encoding="utf-8"
+    )
+
+
+_write_runtime_manifest()
 
 
 def _load_instruction(*args, **kwargs) -> str:

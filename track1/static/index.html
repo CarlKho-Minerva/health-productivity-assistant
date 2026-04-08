@@ -570,16 +570,25 @@
       const res = await fetch('/api/files');
       const data = await res.json();
       list.innerHTML = '';
-      const promptFiles = ['system_prompt.md', 'prompt_output_style.md', 'prompt_tool_policy.md', 'prompt_transparency.md'];
-      const prompts = promptFiles.filter(name => data.files.includes(name));
-      const rest = data.files.filter(name => !promptFiles.includes(name));
-      [...prompts, ...rest].forEach(name => {
+      const pinnedFiles = [
+        'runtime_manifest.md',
+        'vault_provenance.md',
+        'system_prompt.md',
+        'prompt_output_style.md',
+        'prompt_tool_policy.md',
+        'prompt_transparency.md'
+      ];
+      const pinned = pinnedFiles.filter(name => data.files.includes(name));
+      const rest = data.files.filter(name => !pinnedFiles.includes(name));
+      [...pinned, ...rest].forEach(name => {
         const el = document.createElement('div');
         el.className = 'file-item' + (name === currentFile ? ' active' : '');
         el.dataset.filename = name;
-        el.innerHTML = promptFiles.includes(name)
-          ? `<span style="color:var(--green);font-weight:600">\u2699\ufe0f</span> ${name}`
-          : name;
+        el.innerHTML = ['runtime_manifest.md', 'vault_provenance.md'].includes(name)
+          ? `<span style="color:var(--green);font-weight:600">\u25c8</span> ${name}`
+          : ['system_prompt.md', 'prompt_output_style.md', 'prompt_tool_policy.md', 'prompt_transparency.md'].includes(name)
+            ? `<span style="color:var(--green);font-weight:600">\u2699\ufe0f</span> ${name}`
+            : name;
         el.onclick = () => selectFile(name);
         list.appendChild(el);
       });
