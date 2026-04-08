@@ -11,6 +11,9 @@ from google.adk.agents import Agent
 
 HEALTH_VAULT_DIR = Path(__file__).parent.parent / "health_vault"
 
+# Files excluded from health record search (internal config, not data)
+_EXCLUDED_FROM_SEARCH = {"system_prompt.md"}
+
 
 def search_health_records(query: str) -> str:
     """Search personal health vault markdown files for records matching the query.
@@ -30,6 +33,7 @@ def search_health_records(query: str) -> str:
     records = {
         str(f.relative_to(HEALTH_VAULT_DIR)): f.read_text(encoding="utf-8")
         for f in HEALTH_VAULT_DIR.rglob("*.md")
+        if f.name not in _EXCLUDED_FROM_SEARCH
     }
 
     if not records:
@@ -92,12 +96,7 @@ def patch_health_record(file_name: str, old_text: str, new_text: str) -> str:
     return f"OK: patched {file_name} ({len(old_text)} chars → {len(new_text)} chars)."
 
 
-def get_system_instruction() -> str:
-    """Read the latest system prompt from the health vault markdown file."""
-    prompt_file = HEALTH_VAULT_DIR / "system_prompt.md"
-    if prompt_file.exists():
-        return prompt_file.read_text(encoding="utf-8")
-    return """\
+_DEFAULT_INSTRUCTION = """\
 You are a Health Record Agent managing a personal health vault (markdown files).
 
 **Reading:**
@@ -121,10 +120,20 @@ You are a Health Record Agent managing a personal health vault (markdown files).
 """
 
 
+def _load_instruction(*args, **kwargs) -> str:
+    """Load instruction from system_prompt.md if present, else use default.
+    Accepts any args/kwargs so ADK can call it with or without a context object.
+    """
+    prompt_file = HEALTH_VAULT_DIR / "system_prompt.md"
+    if prompt_file.exists():
+        return prompt_file.read_text(encoding="utf-8")
+    return _DEFAULT_INSTRUCTION
+
+
 root_agent = Agent(
     name="health_record_agent",
     model="gemini-3-flash-preview",
     description="Answers questions and manages personal health records.",
-    instruction=get_system_instruction,
+    instruction=_load_instruction,
     tools=[search_health_records, write_health_record, patch_health_record],
 )

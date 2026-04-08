@@ -469,10 +469,15 @@
       const res = await fetch('/api/files');
       const data = await res.json();
       list.innerHTML = '';
-      data.files.forEach(name => {
+      // group: system_prompt first, then the rest alphabetically
+      const sys = data.files.filter(f => f === 'system_prompt.md');
+      const rest = data.files.filter(f => f !== 'system_prompt.md');
+      [...sys, ...rest].forEach(name => {
         const el = document.createElement('div');
         el.className = 'file-item' + (name === currentFile ? ' active' : '');
-        el.textContent = name;
+        el.innerHTML = name === 'system_prompt.md'
+          ? `<span style="color:var(--green);font-weight:600">\u2699\ufe0f</span> ${name}`
+          : name;
         el.onclick = () => selectFile(name);
         list.appendChild(el);
       });
