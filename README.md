@@ -1,5 +1,7 @@
 https://health-record-agent-hd4kqp35da-uc.a.run.app
 
+[![Demo Video](https://img.youtube.com/vi/wy5yb68iy_k/maxresdefault.jpg)](https://youtu.be/wy5yb68iy_k)
+
 # Health Productivity Assistant
 **Google Cloud GenAI Academy APAC 2026 | Carl Kho | kho@uni.minerva.edu**
 
