@@ -92,11 +92,12 @@ def patch_health_record(file_name: str, old_text: str, new_text: str) -> str:
     return f"OK: patched {file_name} ({len(old_text)} chars → {len(new_text)} chars)."
 
 
-root_agent = Agent(
-    name="health_record_agent",
-    model="gemini-3-flash-preview",
-    description="Answers questions and manages personal health records.",
-    instruction="""\
+def get_system_instruction() -> str:
+    """Read the latest system prompt from the health vault markdown file."""
+    prompt_file = HEALTH_VAULT_DIR / "system_prompt.md"
+    if prompt_file.exists():
+        return prompt_file.read_text(encoding="utf-8")
+    return """\
 You are a Health Record Agent managing a personal health vault (markdown files).
 
 **Reading:**
@@ -117,6 +118,13 @@ You are a Health Record Agent managing a personal health vault (markdown files).
 **Images:**
 7. If the user provides an image (e.g. a lab report photo), extract all values from it.
    Then offer to update the health vault automatically using patch/write tools.
-""",
+"""
+
+
+root_agent = Agent(
+    name="health_record_agent",
+    model="gemini-3-flash-preview",
+    description="Answers questions and manages personal health records.",
+    instruction=get_system_instruction,
     tools=[search_health_records, write_health_record, patch_health_record],
 )
