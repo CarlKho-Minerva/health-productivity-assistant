@@ -351,6 +351,8 @@
       flex: 1; background: #090909; color: var(--text); border: none; outline: none;
       padding: 16px; font-size: 13px; font-family: 'SF Mono', 'Menlo', monospace;
       line-height: 1.65; resize: none; tab-size: 2;
+      /* override global textarea max-height:120px which is only for the chat input */
+      max-height: none; min-height: 0; height: 0; overflow-y: auto;
     }
     .file-textarea:disabled {
       opacity: 1; color: var(--text3);
