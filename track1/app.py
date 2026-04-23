@@ -6,6 +6,7 @@ import os
 import uuid
 import base64
 import asyncio
+from datetime import datetime, timezone
 from pathlib import Path
 from fastapi import FastAPI
 from fastapi.responses import FileResponse, JSONResponse
@@ -24,6 +25,7 @@ from health_agent.agent import root_agent, HEALTH_VAULT_DIR
 
 APP_NAME = "health_agent"
 STATIC_DIR = Path(__file__).parent / "static"
+_STARTUP_TIME = datetime.now(timezone.utc)
 
 session_service = InMemorySessionService()
 runner = Runner(
@@ -124,7 +126,74 @@ async def chat(req: ChatRequest):
 
 @app.get("/health")
 async def health():
-    return {"status": "ok"}
+    vault_files = sorted(f.name for f in HEALTH_VAULT_DIR.glob("*.md") if not f.name.startswith("."))
+    uptime_seconds = int((datetime.now(timezone.utc) - _STARTUP_TIME).total_seconds())
+    return {
+        "status": "ok",
+        "service": "health-record-agent",
+        "version": "2.0.0",
+        "model": "gemini-2.0-flash",
+        "framework": "Google ADK",
+        "deployment": "Google Cloud Run",
+        "vault_file_count": len(vault_files),
+        "uptime_seconds": uptime_seconds,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    }
+
+
+@app.get("/api/manifest")
+async def manifest():
+    """Return a full manifest of the agent: files, tools, endpoints, config.
+    Designed to be curl-friendly for judges evaluating the submission.
+    """
+    _PROMPT_FILES = [
+        "system_prompt.md", "prompt_output_style.md",
+        "prompt_tool_policy.md", "prompt_transparency.md",
+    ]
+    _META_FILES = ["runtime_manifest.md", "vault_provenance.md"]
+
+    all_md = sorted(f.name for f in HEALTH_VAULT_DIR.glob("*.md") if not f.name.startswith("."))
+    vault_files = [f for f in all_md if f not in _PROMPT_FILES and f not in _META_FILES]
+    prompt_files = [f for f in all_md if f in _PROMPT_FILES]
+    meta_files = [f for f in all_md if f in _META_FILES]
+
+    return {
+        "service": "Health Passport Cloud Agent",
+        "version": "2.0.0",
+        "track": "Track 1 — Build and Deploy AI Agents using Gemini, ADK, and Cloud Run",
+        "competition": "Google Cloud Gen AI Academy APAC 2026",
+        "participant": "Carl Kho",
+        "demo_patient": "Arjun Mukherjee, 24M, CS grad student, BITS Pilani Hyderabad",
+        "model": "gemini-2.0-flash",
+        "framework": "Google ADK",
+        "deployment": "Google Cloud Run",
+        "github": "https://github.com/CarlKho-Minerva/health-productivity-assistant",
+        "demo_video": "https://youtu.be/wy5yb68iy_k",
+        "vault_files": vault_files,
+        "prompt_files": prompt_files,
+        "meta_files": meta_files,
+        "agent_tools": [
+            "search_health_records",
+            "write_health_record",
+            "patch_health_record",
+        ],
+        "endpoints": {
+            "GET  /": "Serve chat UI (index.html)",
+            "POST /api/chat": "Send message to agent (text + optional image/audio)",
+            "GET  /api/files": "List all vault files",
+            "GET  /api/files/{filename}": "Read a vault file",
+            "PUT  /api/files/{filename}": "Write/update a vault file",
+            "GET  /health": "Health check + runtime info",
+            "GET  /api/manifest": "This manifest — full agent description",
+        },
+        "curl_examples": {
+            "chat": "curl -X POST {base_url}/api/chat -H 'Content-Type: application/json' -d '{\"message\": \"What is my eye prescription?\"}'",
+            "files": "curl {base_url}/api/files",
+            "health": "curl {base_url}/health",
+            "manifest": "curl {base_url}/api/manifest",
+        },
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+    }
 
 
 # ── File CRUD API ──────────────────────────────────────────────────────────────

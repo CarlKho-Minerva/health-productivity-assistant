@@ -265,6 +265,64 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border-card); border-radius: 2px; }
 
+    /* ── AUTH OVERLAY ── */
+    #loginOverlay {
+      position: fixed; inset: 0; z-index: 999;
+      background: #020202;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .login-card {
+      background: var(--surface);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      padding: 40px 36px 32px;
+      width: 100%; max-width: 380px;
+      display: flex; flex-direction: column; align-items: center; gap: 0;
+      box-shadow: 0 0 60px rgba(0,0,0,.8);
+    }
+    .login-logo {
+      width: 56px; height: 56px; border-radius: 16px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; box-shadow: 0 0 24px rgba(16,185,129,.3);
+      margin-bottom: 20px;
+    }
+    .login-card h2 {
+      font-size: 20px; font-weight: 700; letter-spacing: -.02em;
+      color: var(--text); text-align: center; margin-bottom: 6px;
+    }
+    .login-card p {
+      font-size: 13px; color: var(--text2); text-align: center;
+      margin-bottom: 28px; line-height: 1.5;
+    }
+    .google-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 13px 20px;
+      background: #fff; color: #3c4043; border: none;
+      border-radius: 12px; font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: box-shadow .15s;
+      font-family: inherit; letter-spacing: .01em;
+    }
+    .google-btn:hover { box-shadow: 0 2px 10px rgba(255,255,255,.15); }
+    .google-btn:disabled { opacity: .6; cursor: not-allowed; }
+    .google-btn svg { flex-shrink: 0; }
+    .login-demo-note {
+      margin-top: 16px; font-size: 11px; color: var(--text3); text-align: center;
+    }
+    /* User pill in header */
+    .user-pill {
+      display: flex; align-items: center; gap: 7px;
+      background: var(--card); border: 1px solid var(--border-card);
+      border-radius: 20px; padding: 3px 10px 3px 4px;
+      font-size: 11px; color: var(--text2); cursor: default;
+    }
+    .user-avatar {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 700; color: white; flex-shrink: 0;
+    }
+
     /* ── ATTACH BUTTON ── */
     .attach-btn {
       width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
@@ -362,11 +420,36 @@
 </head>
 <body>
 
+<!-- ── FAKE GOOGLE AUTH OVERLAY ── -->
+<div id="loginOverlay">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </div>
+    <h2>Health Passport AI</h2>
+    <p>Sign in to access your health records<br>securely via Google.</p>
+    <button class="google-btn" id="googleSignInBtn" onclick="fakeLogin()">
+      <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Sign in with Google
+    </button>
+    <p class="login-demo-note">Demo patient: Arjun Mukherjee · BITS Pilani Hyderabad</p>
+  </div>
+</div>
+
 <header>
   <div class="hdr-top">
     <div class="status-dot"></div>
     <span class="hdr-title">Health Passport</span>
     <span class="privacy-badge">cloud AI</span>
+    <span id="userPill" style="display:none" class="user-pill">
+      <span class="user-avatar">AM</span>
+      <span>arjun.m@bits-pilani.ac.in</span>
+    </span>
   </div>
   <div class="hdr-sub">
     <span id="modelStatus">Gemini 3 Flash Preview · Ready</span>
@@ -458,6 +541,32 @@
 </div>
 
 <script>
+  // ── Auth gate ────────────────────────────────────────────────────
+  (function checkAuth() {
+    if (localStorage.getItem('hp_auth') === '1') {
+      document.getElementById('loginOverlay').style.display = 'none';
+      document.getElementById('userPill').style.display = 'flex';
+    }
+  })();
+
+  function fakeLogin() {
+    const btn = document.getElementById('googleSignInBtn');
+    btn.disabled = true;
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3c4043" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:spin .8s linear infinite"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>&nbsp;Signing you in…`;
+    // CSS spin animation
+    if (!document.getElementById('spinStyle')) {
+      const s = document.createElement('style');
+      s.id = 'spinStyle';
+      s.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+      document.head.appendChild(s);
+    }
+    setTimeout(() => {
+      localStorage.setItem('hp_auth', '1');
+      document.getElementById('loginOverlay').style.display = 'none';
+      document.getElementById('userPill').style.display = 'flex';
+    }, 1300);
+  }
+
   let sessId = localStorage.getItem('hp_sess') || null;
   let busy = false;
   let currentMode = 'chat';
